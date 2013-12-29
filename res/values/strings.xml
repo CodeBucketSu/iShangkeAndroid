@@ -4,6 +4,7 @@
     <string name="app_name">iShangke</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    
     <string name="day_mon">一</string>
     <string name="day_Tue">二</string>
     <string name="day_Wed">三</string>
@@ -11,5 +12,43 @@
     <string name="day_Fri">五</string>
     <string name="day_Sat">六</string>
     <string name="day_Sun">日</string>
+    
+    <string name="dpt_all">所有开课学院</string>
+    <string name="dpt_0">0-人文学院</string>
+    <string name="dpt_1">1-外语系</string>
+    <string name="dpt_2">2-数学科学学院</string>
+    <string name="dpt_3">3-物理科学学院</string>
+    <string name="dpt_4">4-化学与化学工程学院</string>
+    <string name="dpt_5">5-生命科学学院</string>
+    <string name="dpt_6">6-地球科学学院</string>
+    <string name="dpt_7">7-计算机与控制工程学院</string>
+    <string name="dpt_8">8-资源与环境学院</string>
+    <string name="dpt_9">9-管理学院</string>
+    <string name="dpt_T">T-体育教研室</string>
+    <string name="dpt_E">E-电子与通信工程学院</string>
+    <string name="dpt_G">G-工程管理与信息技术学院</string>
+    <string name="dpt_M">M-材料科学与光电学院</string>
+    <string name="dpt_C">C-继续教育学院</string>
+    
+    <string name="search_title">搜索课程</string>
+    <string name="search_init">请输入课程名称</string>
+    <string name="search_go">搜索</string>
+    <string name="search_result">搜索结果</string>
+    
+    <string name="campus_Y">玉泉路</string>
+    <string name="campus_Z">中关村</string>
+    <string name="campus_H">怀柔</string>
+    
+    <string name="credit">学分满足：</string>
+    
+    <string name="conflict">不显示与已选课程冲突的课程</string>
+    
+    <string name="add_course">添加</string>
+    <string name="delete_course">删除</string>
+    
+    <string name="more_options">高级搜索</string>
+    <string name="sertch_go">搜索</string>
+    
+
 
 </resources>

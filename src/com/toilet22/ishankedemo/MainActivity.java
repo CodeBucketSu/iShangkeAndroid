@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
 		
 		vto = lnLayout.getViewTreeObserver();
 		tvNew = new TextView(this);
-		tvNew.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.background_course));
+		tvNew.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bkg_course));
 		
 		ViewTreeObserver.OnPreDrawListener opl = new ViewTreeObserver.OnPreDrawListener() {
 			public boolean onPreDraw() {
