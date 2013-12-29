@@ -12,6 +12,7 @@ public class IShangkeHeader {
 	public static final String RQST_CREDIT = "credit";
 	public static final String RQST_IS_COLLISION_ALLOWED = "noconflict";
 	public static final String RQST_COURSE_CHOSE = "chose";
+	public static final String RQST_COURSE_ID = "cfgid";
 
 	public static final String LIST_ITEM_TEACHER  = "TeacherName";
 	public static final String LIST_ITEM_CONFIG_ID = "ConfigID";
@@ -27,7 +28,7 @@ public class IShangkeHeader {
 	public static final String DETAIL_WEEK = "Week";
 	public static final String DETAIL_DAY = "Day";
 	public static final String DETAIL_ORDER = "Class";
-	public static final String DETAIL_CLASSROOM = "ClassRoom";
+	public static final String DETAIL_CLASSROOM = "Classroom";
 	public static final String DETAIL_TEACHING_WAY = "teach";
 	public static final String DETAIL_EXAM_WAY = "exam";
 	public static final String DETAIL_NAME = "name";

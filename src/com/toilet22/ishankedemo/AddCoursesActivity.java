@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,11 @@ import android.widget.TextView;
 public class AddCoursesActivity extends Activity{
 	private final String Tag = "AddCoursesActivity";
 
+	// For file operation.
+	Course[] coursesChosen;
+	FileHelper fh;
+	
+	// For search results.
 	Course[] courses;
 	ListView lv_results;
 	EditText edt_keyword;
@@ -30,6 +36,16 @@ public class AddCoursesActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_addcourses);
+		
+		fh = new FileHelper(this);
+		try {
+			coursesChosen = fh.readCoursesChosenFromFile();
+		} catch (Exception e2) {
+			// TODO Auto-generated catch block
+			Log.e(Tag, "Error in readCoursesChosenFromFile().");
+			e2.printStackTrace();
+			coursesChosen = null;
+		}
 		
 		edt_keyword = (EditText)findViewById(R.id.editText_search);
 		
@@ -45,6 +61,9 @@ public class AddCoursesActivity extends Activity{
 		lv_results = (ListView)findViewById(R.id.listView_courses);
 		
 		adapter = new CoursesListAdapter(this);
+
+		Drawable drw_btn_add = this.getResources().getDrawable(R.drawable.bkg_btn_addcourse);
+		Drawable drw_btn_delete = this.getResources().getDrawable(R.drawable.bkg_btn_deletecourse);
 		
 		btn_search.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
@@ -110,11 +129,70 @@ public class AddCoursesActivity extends Activity{
 			View courseItem = inflater.inflate(R.layout.layout_courseslist_item, null);
 			TextView tv_name = (TextView)courseItem.findViewById(R.id.textView_course_name);
 			TextView tv_teacher = (TextView)courseItem.findViewById(R.id.textView_teacher);
-			TextView tv_id = (TextView)courseItem.findViewById(R.id.textView_courseid);
+			final TextView tv_id = (TextView)courseItem.findViewById(R.id.textView_courseid);
 			Log.v(Tag, "after findViews");
 			tv_name.setText(c.name);
 			tv_teacher.setText(c.teacher);
-			tv_id.setText(c.courseID);
+			tv_id.setText(c.configID);
+			
+			
+			final Button btn_add = (Button)courseItem.findViewById(R.id.btn_addcourse);
+			btn_add.setOnClickListener(new OnClickListener(){
+				public void onClick(View v) {
+					// Get the detailed information of the course from server.
+					HttpHelper httpHelper = new HttpHelper();
+					Course newCourse;
+					try {
+						Log.v(Tag, "before getCourseFromServer in btn_add's onClickListener.");
+						newCourse = httpHelper.getCourseFromServer(tv_id.getText().toString());
+					} catch (Exception e) {
+						Log.e(Tag, "Error in btn_add's onClickListener.");
+						e.printStackTrace();
+						newCourse = null;
+					}
+					
+					// Add the course into the file if there is no collisions in time.
+					// judge
+					Log.v(Tag, "before judging and adding.");
+					if(newCourse != null){
+						Log.v(Tag, "newCourse is not null.");
+						if(coursesChosen!=null){
+							Log.v(Tag, "coursesChosen is not null.");
+							if(newCourse.ifConflict(coursesChosen)){
+								Log.v(Tag, "Conflict!!");
+								return;
+							}
+						}					
+						
+						// Add course
+						Log.v(Tag, "No collision.");
+						
+						int length;
+						if(coursesChosen != null){
+							length= coursesChosen.length;
+							Course[]newCoursesChosen = new Course[length+1];
+							for(int k=0; k<length; k++){
+								newCoursesChosen[k] = coursesChosen[k];
+							}
+							newCoursesChosen[length] = newCourse;
+							coursesChosen = newCoursesChosen;
+						}else{
+							Course[]newCoursesChosen = new Course[1];
+							newCoursesChosen[0] = newCourse;
+							coursesChosen = newCoursesChosen;
+						}
+						
+						// Change the button's appearance
+						btn_add.setText(R.string.delete_course);
+						//btn_add.setBackgroundDrawable(drw_btn_delete);
+						
+						// Update coursesChosen in file.
+							
+						
+					}
+					
+				}
+			});
 
 			Log.v(Tag, "before return");
 			return courseItem;

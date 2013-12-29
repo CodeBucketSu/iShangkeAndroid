@@ -30,6 +30,10 @@ public class HttpHelper {
 	
 	private HttpURLConnection conn;
 	
+	/*
+	 * This method post a SEARCH_COURSES request to the server and 
+	 * return an array of conciese information of courses returned by server.
+	 */
 	public Course[] searchCoursesFromServer(String request) throws Exception{
 		//request = URLEncoder.encode(request, "utf-8");
 		String strURL = SERVER_URL + SEARCH_COURSES + "?" + request;
@@ -59,7 +63,7 @@ public class HttpHelper {
 
 		Log.v(Tag, "before JSON2Courses.");
 		Log.v(Tag, jsonstr);
-		courses = JSON2Courses(jobj);
+		courses = JSONHelper.searchResultsJSON2Courses(jobj);
 		Log.v(Tag, "courses == null? " + Boolean.toString(courses == null));
 		in.close();
 		return courses;
@@ -68,42 +72,43 @@ public class HttpHelper {
 		
 	}
 	
-	private Course[] JSON2Courses(JSONObject jObj) throws JSONException{
-		Log.v(Tag, "before jobj.getJSONArray.");
-		JSONArray jArry = jObj.getJSONArray(IShangkeHeader.LIST_ITEM_LIST);
-		int len = jArry.length(); 
-		Log.v(Tag, "the length of JSONArray is " + Integer.toString(len));
-		Course[] courses = new Course[len];
-		JSONObject jobj;
-
-		Log.v(Tag, "before for loop.");
-		for (int i = 0; i<len; i++){
-			jobj = jArry.getJSONObject(i);
-			Log.v(Tag, "before getJSONObject.");
-			courses[i] = JSON2Course(jobj);
+	/*
+	 * This method post a GET_COURSE request to the server and 
+	 * return the detailed information of the course chosen.
+	 */
+	public Course getCourseFromServer(String configID) throws Exception {
+		String strURL = SERVER_URL + GET_COURSE + "?" + IShangkeHeader.RQST_COURSE_ID + "=" + configID;
+		Log.v(Tag, "strURL: " + strURL);
+		
+		URL url= new URL(strURL);
+		Log.v(Tag, "before url.openConnection.");
+		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+		conn.setConnectTimeout(TIMEOUT);
+		Log.v(Tag, "after setConnectionTimeout.");
+		
+		Log.v(Tag, "before conn.getInputStream.");
+		InputStream in = conn.getInputStream();
+		
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int len = 0;
+		while((len = in.read(buffer))!=-1){
+			bos.write(buffer, 0, len);
 		}
+		Log.v(Tag, "before new JSONObject.");
+		String jsonstr = bos.toString();
+		JSONObject jobj = new JSONObject(jsonstr);
 
-		return courses;
+		Log.v(Tag, "before JSON2Courses.");
+		Log.v(Tag, jsonstr);
+		Course course = JSONHelper.courseInfoJSON2Course(jobj);
+		
+		Log.v(Tag, "course == null? " + Boolean.toString(course == null));
+		in.close();
+		return course;
+		
+		
+		
 	}
-	
-	private Course JSON2Course(JSONObject jObj){
-		Course c = new Course();
-		Log.v(Tag, "in JSON2Course,");
-		try{
-			c.name = jObj.getString(IShangkeHeader.LIST_ITEM_NAME);
-			c.teacher = jObj.getString(IShangkeHeader.LIST_ITEM_TEACHER);
-			c.configID = jObj.getString(IShangkeHeader.LIST_ITEM_CONFIG_ID);
-			c.courseID = jObj.getString(IShangkeHeader.LIST_ITEM_COURSE_ID);
-			Log.v(Tag, "name:" + c.name + ", teacher: " + c.teacher + ", configID: " + c.configID
-					+ ", courseID: " + c.courseID);
-			return c;
-		}catch (Exception e) {
-			Log.e(Tag, "Error in JSON2Course.");
-			e.printStackTrace();
-		}		
-		return null;
-	}
-	
-	
 	
 }
