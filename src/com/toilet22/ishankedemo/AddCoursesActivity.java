@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class AddCoursesActivity extends Activity{
@@ -36,9 +37,11 @@ public class AddCoursesActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_addcourses);
-		
+
+		Log.v(Tag, "before new FileHelper().");
 		fh = new FileHelper(this);
 		try {
+			Log.v(Tag, "before readCoursesChosenFromFile().");
 			coursesChosen = fh.readCoursesChosenFromFile();
 		} catch (Exception e2) {
 			// TODO Auto-generated catch block
@@ -160,6 +163,8 @@ public class AddCoursesActivity extends Activity{
 							Log.v(Tag, "coursesChosen is not null.");
 							if(newCourse.ifConflict(coursesChosen)){
 								Log.v(Tag, "Conflict!!");
+								Toast.makeText(getApplicationContext(), "与现有课程有冲突", 
+										Toast.LENGTH_SHORT).show();
 								return;
 							}
 						}					
@@ -182,11 +187,15 @@ public class AddCoursesActivity extends Activity{
 							coursesChosen = newCoursesChosen;
 						}
 						
+
+						// Update coursesChosen in file.
+						fh.writeCoursesChosenIntoFile(coursesChosen);
+						
 						// Change the button's appearance
 						btn_add.setText(R.string.delete_course);
-						//btn_add.setBackgroundDrawable(drw_btn_delete);
+						btn_add.setBackgroundDrawable(AddCoursesActivity.this
+								.getResources().getDrawable(R.drawable.bkg_btn_deletecourse));
 						
-						// Update coursesChosen in file.
 							
 						
 					}

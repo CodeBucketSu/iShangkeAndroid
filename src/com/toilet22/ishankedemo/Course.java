@@ -123,10 +123,17 @@ public class Course {
 		public boolean ifConflict(CourseTimeLocation oCTL){
 			if (day != oCTL.day) return false;
 			else if(orders[0]>oCTL.orders[oCTL.orders.length-1]
-					|| oCTL.orders[0]>orders[oCTL.orders.length-1]) return false;
+					|| oCTL.orders[0]>orders[orders.length-1]) return false;
 			else if(weeks[0]>oCTL.weeks[oCTL.weeks.length-1]
-					|| oCTL.weeks[0]>weeks[oCTL.weeks.length-1]) return false;
+					|| oCTL.weeks[0]>weeks[weeks.length-1]) return false;
 			else return true;
+		}
+		
+		public int[] getStartEndOrder(){
+			int[] o = new int[2];
+			o[0] = orders[0];
+			o[1] = orders[orders.length-1];
+			return o;
 		}
 		
 	}

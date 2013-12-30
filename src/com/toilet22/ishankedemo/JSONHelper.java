@@ -53,6 +53,25 @@ public class JSONHelper {
 		return null;
 	}
 	
+	
+	public static Course[] coursesChosenJSON2Courses(JSONObject jObj) throws JSONException{
+		Log.v(Tag, "before jobj.getJSONArray.");
+		JSONArray jArry = jObj.getJSONArray(IShangkeHeader.LIST_ITEM_LIST);
+		int len = jArry.length(); 
+		Log.v(Tag, "the length of JSONArray is " + Integer.toString(len));
+		Course[] courses = new Course[len];
+		JSONObject jobj;
+
+		Log.v(Tag, "before for loop.");
+		for (int i = 0; i<len; i++){
+			Log.v(Tag, "before jArry.getJSONObject(i).");
+			jobj = new JSONObject(jArry.getString(i));
+			Log.v(Tag, "before getJSONObject.");
+			courses[i] = courseInfoJSON2Course(jobj);
+		}
+
+		return courses;
+	}
 
 	/*
 	 * This method parses JSON object which contains the detailed information of a course.

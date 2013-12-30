@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -43,7 +44,7 @@ public class FileHelper {
 
 			Log.v(Tag, "before JSON2Courses.");
 			Log.v(Tag, jsonstr);
-			coursesChosen = JSONHelper.searchResultsJSON2Courses(jobj);
+			coursesChosen = JSONHelper.coursesChosenJSON2Courses(jobj);
 			
 			Log.v(Tag, "courses == null? " + Boolean.toString(coursesChosen == null));
 			fis.close();
@@ -61,7 +62,22 @@ public class FileHelper {
 		
 	}
 	
-	public boolean writeCoursesChosenIntoFile(Course[] couses){
+	public boolean writeCoursesChosenIntoFile(Course[] courses){
+		try {
+			JSONObject jo = JSONHelper.coursesChosen2JSON(courses);
+			String strJSON = jo.toString();
+			Log.v(Tag, strJSON);
+			FileOutputStream outputStream = context.openFileOutput(FILE_NAME_COURSES_CHOSEN,
+					Context.MODE_PRIVATE);
+			outputStream.write(strJSON.getBytes());
+			outputStream.close();
+			return true;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Log.e(Tag, "Error in writeCoursesChosenIntoFile().");
+			e.printStackTrace();
+		}
 		
 		
 		return false;	

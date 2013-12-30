@@ -3,7 +3,7 @@
     <!-- item background -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color = "#c0c0c0"/>
+            <solid android:color = "#d0d0d0"/>
         </shape>
     </item>
     <!-- item foreground -->
@@ -11,7 +11,7 @@
         android:left="1dp"
         android:right="1dp">
         <shape android:shape="rectangle">
-            <solid android:color="#cccccc"/>
+            <solid android:color="#dddddd"/>
         </shape>
     </item>
 </layer-list>
