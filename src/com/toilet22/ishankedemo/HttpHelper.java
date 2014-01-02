@@ -34,11 +34,11 @@ public class HttpHelper {
 	 * This method post a SEARCH_COURSES request to the server and 
 	 * return an array of conciese information of courses returned by server.
 	 */
-	public Course[] searchCoursesFromServer(String request) throws Exception{
+	public CourseList searchCoursesFromServer(String request) throws Exception{
 		//request = URLEncoder.encode(request, "utf-8");
 		String strURL = SERVER_URL + SEARCH_COURSES + "?" + request;
 		Log.v(Tag, "strURL: " + strURL);
-		Course[] courses;
+		CourseList courses;
 		
 		
 		URL url= new URL(strURL);

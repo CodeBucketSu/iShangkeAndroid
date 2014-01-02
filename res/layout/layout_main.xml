@@ -10,7 +10,7 @@
         android:background="@drawable/bkg_actionbar" >
 
         <Button
-            android:id="@+id/button_main_addCourse"
+            android:id="@+id/button_addCourse_advancedSearch"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -27,12 +27,12 @@
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/btn_settings"
+            android:background="@drawable/btn_settings1"
             android:minHeight="10dp"
             android:minWidth="10dp" />
 
         <TextView
-            android:id="@+id/textView_courseChosen_name"
+            android:id="@+id/textView_search_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

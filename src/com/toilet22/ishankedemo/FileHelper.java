@@ -27,8 +27,8 @@ public class FileHelper {
 	 * This method will read and parse the file and return a Course Array.
 	 * If there is no file exsited, method will create one and return null.
 	 */
-	public Course[] readCoursesChosenFromFile() throws Exception{
-		Course[] coursesChosen;
+	public CourseList readCoursesChosenFromFile() throws Exception{
+		CourseList coursesChosen = new CourseList();
 		
 		try {
 			FileInputStream fis = context.openFileInput(FILE_NAME_COURSES_CHOSEN);
@@ -57,14 +57,14 @@ public class FileHelper {
 			
 			FileOutputStream fos = context.openFileOutput(FILE_NAME_COURSES_CHOSEN, 
 					Context.MODE_PRIVATE);
-			return null;
+			return coursesChosen;
 		}
 		
 	}
 	
-	public boolean writeCoursesChosenIntoFile(Course[] courses){
+	public boolean writeCoursesChosenIntoFile(CourseList courseList){
 		try {
-			JSONObject jo = JSONHelper.coursesChosen2JSON(courses);
+			JSONObject jo = JSONHelper.coursesChosen2JSON(courseList);
 			String strJSON = jo.toString();
 			Log.v(Tag, strJSON);
 			FileOutputStream outputStream = context.openFileOutput(FILE_NAME_COURSES_CHOSEN,

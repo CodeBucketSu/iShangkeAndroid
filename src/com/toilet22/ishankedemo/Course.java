@@ -55,9 +55,9 @@ public class Course {
 		return false;
 	}
 	
-	public boolean ifConflict(Course[] courses){
-		for(int i = 0; i<courses.length; i++){
-			if(ifConflict(courses[i]))return true;
+	public boolean ifConflict(CourseList courses){
+		for(int i = 0; i<courses.length(); i++){
+			if(ifConflict(courses.getCourse(i)))return true;
 		}
 		return false;
 	}

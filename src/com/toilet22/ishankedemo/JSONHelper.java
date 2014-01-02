@@ -14,22 +14,24 @@ public class JSONHelper {
 	 * into a Course array. 
 	 * The JSON object is returned by sever after SEARCH_COURSES request posted.
 	 */
-	public static Course[] searchResultsJSON2Courses(JSONObject jObj) throws JSONException{
+	public static CourseList searchResultsJSON2Courses(JSONObject jObj) throws JSONException{
 		Log.v(Tag, "before jobj.getJSONArray.");
 		JSONArray jArry = jObj.getJSONArray(IShangkeHeader.LIST_ITEM_LIST);
 		int len = jArry.length(); 
+		if (len == 0)
+			return null;
 		Log.v(Tag, "the length of JSONArray is " + Integer.toString(len));
-		Course[] courses = new Course[len];
+		CourseList courseList = new CourseList();
 		JSONObject jobj;
 
 		Log.v(Tag, "before for loop.");
 		for (int i = 0; i<len; i++){
 			jobj = jArry.getJSONObject(i);
 			Log.v(Tag, "before getJSONObject.");
-			courses[i] = searchResultsJSON2Course(jobj);
+			courseList.addCourse(searchResultsJSON2Course(jobj));
 		}
 
-		return courses;
+		return courseList;
 	}
 	
 	/*
@@ -54,12 +56,12 @@ public class JSONHelper {
 	}
 	
 	
-	public static Course[] coursesChosenJSON2Courses(JSONObject jObj) throws JSONException{
+	public static CourseList coursesChosenJSON2Courses(JSONObject jObj) throws JSONException{
 		Log.v(Tag, "before jobj.getJSONArray.");
 		JSONArray jArry = jObj.getJSONArray(IShangkeHeader.LIST_ITEM_LIST);
 		int len = jArry.length(); 
 		Log.v(Tag, "the length of JSONArray is " + Integer.toString(len));
-		Course[] courses = new Course[len];
+		CourseList courses = new CourseList();
 		JSONObject jobj;
 
 		Log.v(Tag, "before for loop.");
@@ -67,7 +69,7 @@ public class JSONHelper {
 			Log.v(Tag, "before jArry.getJSONObject(i).");
 			jobj = new JSONObject(jArry.getString(i));
 			Log.v(Tag, "before getJSONObject.");
-			courses[i] = courseInfoJSON2Course(jobj);
+			courses.addCourse(courseInfoJSON2Course(jobj));
 		}
 
 		return courses;
@@ -117,15 +119,15 @@ public class JSONHelper {
 	 * This method packs an array of course's detailed information into a JSON string.
 	 * The method is called by FileHelper.
 	 */
-	public static  JSONObject coursesChosen2JSON(Course[] courses) throws JSONException{
+	public static  JSONObject coursesChosen2JSON(CourseList courseList) throws JSONException{
 		Log.v(Tag, "Course2JSON");
 		JSONArray jArry = new JSONArray();
 		JSONObject jObj = new JSONObject();
-		int len = courses.length;
+		int len = courseList.length();
 		jObj.put(IShangkeHeader.LIST_ITEM_LIST, jArry);
 		for(int i=0; i<len; i++){
-			if(courses[i].strJSON != null){
-				jObj.accumulate(IShangkeHeader.LIST_ITEM_LIST, courses[i].strJSON);
+			if(courseList.getCourse(i).strJSON != null){
+				jObj.accumulate(IShangkeHeader.LIST_ITEM_LIST, courseList.getCourse(i).strJSON);
 			}else{
 				jObj.accumulate(IShangkeHeader.LIST_ITEM_LIST, JSONObject.NULL);
 				Log.e(Tag, "coursesChosen2JSON Error: strJSON is null!");
