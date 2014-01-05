@@ -60,24 +60,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right" >
-
             <EditText
                 android:id="@+id/editText_search"
-                android:layout_width="match_parent"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10" />
-
             <Button
                 android:id="@+id/button_addcourses_search_go"
-                style="?android:attr/buttonStyleSmall"
+            	style="?android:attr/buttonStyleSmall"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/search"
                 android:minHeight="20dp"
-                android:minWidth="50dp"
-                android:textSize="11sp" />
+                android:minWidth="50dp"/>
 
         </LinearLayout>
 

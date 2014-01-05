@@ -106,9 +106,10 @@ public class HttpHelper {
 		Log.v(Tag, "course == null? " + Boolean.toString(course == null));
 		in.close();
 		return course;
-		
-		
-		
 	}
+	
+	
+	
+	
 	
 }
