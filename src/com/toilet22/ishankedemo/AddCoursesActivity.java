@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -203,7 +204,9 @@ public class AddCoursesActivity extends Activity{
 	 * display them in the UI.
 	 */
 	private class SearchClassAndDisplay extends AsyncTask<String, Void, CourseList>{
-
+		private AlertDialog dialog;
+		private AlertDialog.Builder builder;
+		CourseList coursesSearched;
 		
 		protected CourseList doInBackground(String... strRqst) {
 			/************************************************************
@@ -214,16 +217,39 @@ public class AddCoursesActivity extends Activity{
 				Log.v(Tag, "before new searchCoursesFromServer.");
 				Log.v(Tag, "request: " + strRqst[0]);
 				HttpHelper httpHelper = new HttpHelper();
-				CourseList coursesSearched = httpHelper.searchCoursesFromServer(strRqst[0]);
-				return coursesSearched;
+				coursesSearched = httpHelper.searchCoursesFromServer(strRqst[0]);
+				Log.v(Tag, "Background operation is finished.");
 			} catch (Exception e) {
 				Log.e(Tag, "Error in .searchForCoursesAndDisplay");
 				e.printStackTrace();
-				return null;
+				Log.v(Tag, "Background operation is finished.");
+				coursesSearched = new CourseList();
 			}
+			return coursesSearched;
+		}
+		
+		protected void onPreExecute(){
+			// 1. Instantiate an AlertDialog.Builder with its constructor
+			builder = new AlertDialog.Builder(AddCoursesActivity.this);
+
+			// 2. Chain together various setter methods to set the dialog characteristics
+			builder.setMessage("请耐心等待哦~")
+			       .setTitle("正在搜索课程");
+
+			// 3. Get the AlertDialog from create()
+			dialog = builder.create();
+			dialog.show();
+			Log.v(Tag, "dialog == null?: " + Boolean.toString(dialog == null));
+			Log.v(Tag, "Dialog is showed.");
+		    super.onPreExecute();
 		}
 		
 		protected void onPostExecute(CourseList courses){
+			Log.v(Tag, "dialog == null?: " + Boolean.toString(dialog == null));
+			if(dialog.isShowing()){
+				dialog.dismiss();
+			}
+			Log.v(Tag, "Dialog is cancelled.");
 			if(courses != null){
 				Log.v(Tag, "in onPostExecute.");
 				CourseListAdapter adapter = new CourseListAdapter(AddCoursesActivity.this, courses, coursesChosen);
