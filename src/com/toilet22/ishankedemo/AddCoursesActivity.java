@@ -130,15 +130,6 @@ public class AddCoursesActivity extends Activity{
 		 **************************************************************/
 		btn_search.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				try {
-					coursesChosen = fh.readCoursesChosenFromFile();
-					Log.v(Tag, "After readCoursesChosenFromFile, the length of coursesChosen: " + Integer.toString(coursesChosen.length()));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					Log.e(Tag, "Error in readCoursesChosenFromFile().");
-					e.printStackTrace();
-					coursesChosen = new CourseList();
-				}
 				search_keywords = edt_keyword.getText().toString();
 				try {
 					Log.v(Tag, "keywords: " + search_keywords);
@@ -171,6 +162,15 @@ public class AddCoursesActivity extends Activity{
 	 * This method search courses using the @search_kewords and @request_options variables and 
 	 */
 	public void searchCoursesAndDisplay(){
+		try {
+			coursesChosen = fh.readCoursesChosenFromFile();
+			Log.v(Tag, "After readCoursesChosenFromFile, the length of coursesChosen: " + Integer.toString(coursesChosen.length()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Log.e(Tag, "Error in readCoursesChosenFromFile().");
+			e.printStackTrace();
+			coursesChosen = new CourseList();
+		}
 		Log.v(Tag, "in searchForCoursesAndDisplay().");
 		String request = IShangkeHeader.RQST_TEXT + "=" + search_keywords + "&" + request_options;
 		ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -183,9 +183,7 @@ public class AddCoursesActivity extends Activity{
 					Toast.LENGTH_SHORT).show();
 		}
 	}
-	
-	
-	
+
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event){
 		if(keyCode == KeyEvent.KEYCODE_BACK){
@@ -250,8 +248,10 @@ public class AddCoursesActivity extends Activity{
 				dialog.dismiss();
 			}
 			Log.v(Tag, "Dialog is cancelled.");
-			if(courses != null){
+			if(courses != null && courses.length() > 0){
 				Log.v(Tag, "in onPostExecute.");
+				Toast.makeText(getApplicationContext(), "找到" + Integer.toString(courses.length()) +"门符合条件的课程", 
+						Toast.LENGTH_SHORT).show();
 				CourseListAdapter adapter = new CourseListAdapter(AddCoursesActivity.this, courses, coursesChosen);
 				lv_results.setAdapter(adapter);
 				Log.v(Tag, "after setAdapter.");

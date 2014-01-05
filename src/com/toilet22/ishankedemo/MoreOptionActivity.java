@@ -76,6 +76,12 @@ public class MoreOptionActivity extends Activity{
 		">", ">=", "=", "<=", "<"
 	};
 	
+	String[] rqstCreditRestrictions = new String[]{
+		"g", "ge", "e", "le", "l"
+	};
+	
+	
+	
 	String[] strCredits = new String[]{
 		"0", "0.5", "1", "1.5", "2", "2.5", "3"
 	};
@@ -202,30 +208,37 @@ public class MoreOptionActivity extends Activity{
 				}
 				Log.v(Tag, "after courseType.");
 				
-		/*		// Teaching way
-				request = request + "&" + IShangkeHeader.RQST_TEACHING_WAY + "=";
-				try {
-					request += URLEncoder.encode(spnTeachingWay.getSelectedItem().toString(), "utf-8");
-				} catch (UnsupportedEncodingException e) {
-					Log.e(Tag, "Error in courseType request.");
-					request += "";
-					e.printStackTrace();
+				// Teaching way
+				if(spnTeachingWay.getSelectedItemPosition()!=0){
+					request = request + "&" + IShangkeHeader.RQST_TEACHING_WAY + "=";
+					try {
+						request += URLEncoder.encode(spnTeachingWay.getSelectedItem().toString(), "utf-8");
+					} catch (UnsupportedEncodingException e) {
+						Log.e(Tag, "Error in courseType request.");
+						request += "";
+						e.printStackTrace();
+					}
+					Log.v(Tag, "after teaching way.");
 				}
-				Log.v(Tag, "after teaching way.");
 				
 				// Examing way
-				request = request + "&" + IShangkeHeader.RQST_EXAM_WAY + "=";
-				try {
-					request += URLEncoder.encode(spnExamWay.getSelectedItem().toString(), "utf-8");
-				} catch (UnsupportedEncodingException e) {
-					Log.e(Tag, "Error in courseType request.");
-					request += "";
-					e.printStackTrace();
+				if(spnExamWay.getSelectedItemPosition()!=0){
+					request = request + "&" + IShangkeHeader.RQST_EXAM_WAY + "=";
+					try {
+						request += URLEncoder.encode(spnExamWay.getSelectedItem().toString(), "utf-8");
+					} catch (UnsupportedEncodingException e) {
+						Log.e(Tag, "Error in courseType request.");
+						request += "";
+						e.printStackTrace();
+					}
+					Log.v(Tag, "after exam way.");
 				}
-				Log.v(Tag, "after exam way.");
-		*/
+		
 				// Credit
-				
+				request = request + "&" + IShangkeHeader.RQST_CREDIT_RESTRICTION + "=";
+				request += rqstCreditRestrictions[spnCreditRestriction.getSelectedItemPosition()];
+				request = request + "&" + IShangkeHeader.RQST_CREDIT + "=";
+				request += spnCredit.getSelectedItem().toString();
 				
 				// Conflict
 				
