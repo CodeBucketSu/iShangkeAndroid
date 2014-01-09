@@ -9,34 +9,35 @@ import android.util.Log;
 public class Course {
 	public static final String Tag = "Course";
 	
-	public String name;
-	public String configID;
-	public String courseID;
+	public String name, configID, courseID;
 	
 	public int period;
 	public double credit;
 	
-	public String teacher;
-	
-	public String teachWay;
-	public String examWay;
+	public String teacher, teachWay, examWay, type, department, campus;
 	
 	public String strJSON;
 	
 	public CourseTimeLocation[] courseTimeLocations;
 	
 	public Course(){
-		name = null;
-		configID = null;
-		courseID = null;
+		name = "";
+		configID = "";
+		courseID = "";
 		
 		period = 0;
 		credit = 0;
 		
-		teacher = null;
+		teacher = "";
 		
-		teachWay = null;
-		examWay = null;
+		teachWay = "";
+		examWay = "";
+		
+		type = "";
+		department = "";
+		campus = "";
+		
+		strJSON = "";
 		
 		courseTimeLocations = null;
 		
@@ -107,6 +108,16 @@ public class Course {
 		return cTL;			
 	}
 	
+	public String getTimeAndLocationInStrings(){
+		String result = "";
+		if(courseTimeLocations!=null){
+			for(int i = 0; i < courseTimeLocations.length; i++){
+				result += courseTimeLocations[i].getTimeAndLocationInString();
+			}
+		}
+		return result;
+	}
+	
 	public class CourseTimeLocation{
 		public int[] weeks;
 		public int day;
@@ -136,6 +147,156 @@ public class Course {
 			return o;
 		}
 		
+		public String getTimeAndLocationInString(){
+			String tal = "";
+			tal = tal + Integer.toString(weeks[0]) + "~" + Integer.toString(weeks[weeks.length-1]) + "周";
+			switch(day){
+				case 1:
+					tal += " 星期一   ";
+					break;
+				case 2:
+					tal += " 星期二   ";
+					break;
+				case 3:
+					tal += " 星期三   ";
+					break;
+				case 4:
+					tal += " 星期四   ";
+					break;
+				case 5:
+					tal += " 星期五   ";
+					break;
+				case 6:
+					tal += " 星期六   ";
+					break;
+				case 7:
+					tal += " 星期日   ";
+					break;
+				default:
+					break;
+			}
+			tal = tal + Integer.toString(orders[0]) + "~" + Integer.toString(orders[orders.length-1]) + "节";
+			tal = tal + " " + classroom + "\n";
+			return tal;
+		}
+	}
+	
+
+	/*
+	 * This method return the type of the course.
+	 */
+	public static String getTypeFromCourseID(String courseID){
+		String type = "";
+		if(courseID.contains("GX")){
+			type = "公共选修课程";
+			return type;
+		}else if(courseID.contains("GB")){
+			type = "公共必修课程";
+			return type;
+		}else{
+			type += "专业课 | ";
+			switch(courseID.charAt(2)){
+			case '1':
+				type += "学科基础课";
+				return type;
+			case '2':
+				type += "专业基础课";
+				return type;
+			case '3':
+				type += "专业课";
+				return type;
+			case '4':
+				type += "学科综合课";
+				return type;
+			case '5':
+				type += "高级强化课";
+				return type;
+			case '6':
+				type += "系列讲座";
+				return type;
+			case '7':
+				type += "讨论课";
+				return type;
+			case '9':
+				type += "其他课程";
+				return type;
+			default:
+				return type;
+			}
+		}
+	}
+	
+
+	/*
+	 * This method return the department of the course.
+	 */
+	public static String getDepartmentFromCourseID(String courseID){
+		String dpm = "";
+		switch(courseID.charAt(0)){
+			case '0':
+				dpm += "人文学院";
+			case '1':
+				dpm += "外语系";
+				return dpm;
+			case '2':
+				dpm += "数学院";
+				return dpm;
+			case '3':
+				dpm += "物理学院";
+				return dpm;
+			case '4':
+				dpm += "化学学院";
+				return dpm;
+			case '5':
+				dpm += "生命学院";
+				return dpm;
+			case '6':
+				dpm += "地学院";
+				return dpm;
+			case '7':
+				dpm += "计算机学院";
+				return dpm;
+			case '8':
+				dpm += "资环学院";
+				return dpm;
+			case '9':
+				dpm += "管理学院";
+				return dpm;
+			case 'E':
+				dpm += "电子学院";
+				return dpm;
+			case 'G':
+				dpm += "工程学院";
+				return dpm;
+			case 'M':
+				dpm += "材料学院";
+				return dpm;
+			default:
+				dpm += "其他学院";
+				return dpm;
+		}
+	}
+		
+
+		/*
+		 * This method return the campus of the course.
+		 */
+	public static String getCampusFromCourseID(String courseID){
+		String dpm = "";
+		switch(courseID.charAt(6)){
+			case 'H':
+				dpm += "雁栖湖校区";
+				return dpm;
+			case 'Y':
+				dpm += "玉泉路校区";
+				return dpm;
+			case 'Z':
+				dpm += "中关村校区";
+				return dpm;
+			default:
+				dpm += "其他校区";
+				return dpm;
+		}
 	}
 	
 	

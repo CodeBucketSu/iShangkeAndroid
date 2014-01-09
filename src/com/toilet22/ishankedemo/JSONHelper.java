@@ -45,6 +45,10 @@ public class JSONHelper {
 			c.teacher = jObj.getString(IShangkeHeader.LIST_ITEM_TEACHER);
 			c.configID = jObj.getString(IShangkeHeader.LIST_ITEM_CONFIG_ID);
 			c.courseID = jObj.getString(IShangkeHeader.LIST_ITEM_COURSE_ID);
+
+			c.type = Course.getTypeFromCourseID(c.courseID);
+			c.department = Course.getDepartmentFromCourseID(c.courseID);
+			c.campus = Course.getCampusFromCourseID(c.courseID);
 			Log.v(Tag, "name:" + c.name + ", teacher: " + c.teacher + ", configID: " + c.configID
 					+ ", courseID: " + c.courseID);
 			return c;
@@ -90,6 +94,10 @@ public class JSONHelper {
 			c.credit = jObj.getDouble(IShangkeHeader.DETAIL_CREDIT);
 			c.teachWay = jObj.getString(IShangkeHeader.DETAIL_TEACHING_WAY);
 			c.examWay = jObj.getString(IShangkeHeader.DETAIL_EXAM_WAY);
+
+			c.type = Course.getTypeFromCourseID(c.courseID);
+			c.department = Course.getDepartmentFromCourseID(c.courseID);
+			c.campus = Course.getCampusFromCourseID(c.courseID);
 			
 			Log.v(Tag, "after getStrings.");
 			c.strJSON = jObj.toString();
@@ -114,7 +122,6 @@ public class JSONHelper {
 	}
 	
 	
-	
 	/*
 	 * This method packs an array of course's detailed information into a JSON string.
 	 * The method is called by FileHelper.
@@ -135,6 +142,5 @@ public class JSONHelper {
 		}		
 		return jObj;
 	}
-	
 	
 }

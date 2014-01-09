@@ -117,7 +117,7 @@ public class AddCoursesActivity extends Activity{
 				String currentKeyword = edt_keyword.getText().toString();
 				Bundle bn = new Bundle();
 				bn.putString("text", currentKeyword);
-				Intent iMore = new Intent(AddCoursesActivity.this, MoreOptionActivity.class);
+				Intent iMore = new Intent(getApplicationContext(), MoreOptionActivity.class);
 				iMore.putExtras(bn);
 				startActivity(iMore);		
 				AddCoursesActivity.this.finish();
@@ -227,14 +227,9 @@ public class AddCoursesActivity extends Activity{
 		}
 		
 		protected void onPreExecute(){
-			// 1. Instantiate an AlertDialog.Builder with its constructor
 			builder = new AlertDialog.Builder(AddCoursesActivity.this);
-
-			// 2. Chain together various setter methods to set the dialog characteristics
 			builder.setMessage("请耐心等待哦~")
 			       .setTitle("正在搜索课程");
-
-			// 3. Get the AlertDialog from create()
 			dialog = builder.create();
 			dialog.show();
 			Log.v(Tag, "dialog == null?: " + Boolean.toString(dialog == null));

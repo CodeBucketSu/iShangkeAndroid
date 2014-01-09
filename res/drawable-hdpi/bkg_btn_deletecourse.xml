@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <!-- item background -->
-    <item >
-        <shape android:shape="rectangle">
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <item 
+        android:state_pressed="false">
+        <shape android:shape="rectangle">
         	<corners android:radius="25dp"/>
-            <solid android:color="#dd6655"/>
+            <solid android:color="#aaaa00"/>
+        </shape>
+    </item>
+    
+    <item 
+        android:state_pressed="true">
+        <shape android:shape="rectangle">
+        	<corners android:radius="25dp"/>
+            <solid android:color="#999900"/>
         </shape>
     </item>
 
-</layer-list>
+</selector>

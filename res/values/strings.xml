@@ -49,6 +49,19 @@
     <string name="more_options">高级搜索</string>
     <string name="sertch_go">搜索</string>
     
+    
+    <string name="detail_ttl_name">课程名称</string>
+    <string name="detail_ttl_teacher">授课教师</string>
+    <string name="detail_ttl_type">课程类型</string>
+    <string name="detail_ttl_period">课程课时</string>
+    <string name="detail_ttl_credit">课程学分</string>
+    <string name="detail_ttl_time">时间地点</string>
+    <string name="detail_ttl_teachingway">授课方法</string>
+    <string name="detail_ttl_examingway">考试方法</string>
+    <string name="detail_ttl_deleteCourse">删除课程</string>
+    <string name="detail_ttl_department">开课院系</string>
+    <string name="detail_ttl_campus">所属校区</string>
+    
 
 
 </resources>

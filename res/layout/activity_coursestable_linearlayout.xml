@@ -19,12 +19,12 @@
             android:layout_marginBottom="2dp"
             android:layout_marginRight="1dp"
             android:layout_marginTop="1dp"
-            android:background="@drawable/btn_add"
+            android:background="@drawable/bkg_btn_add"
             android:minHeight="10dp"
             android:minWidth="10dp" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/button_detail_delete"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -33,7 +33,7 @@
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="1dp"
             android:layout_marginTop="1dp"
-            android:background="@drawable/btn_settings1"
+            android:background="@drawable/bkg_btn_settings"
             android:minHeight="10dp"
             android:minWidth="10dp" />
 

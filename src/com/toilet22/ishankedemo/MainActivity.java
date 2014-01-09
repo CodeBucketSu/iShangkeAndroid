@@ -5,6 +5,7 @@ import com.toilet22.ishankedemo.Course.CourseTimeLocation;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -34,7 +35,7 @@ public class MainActivity extends Activity {
 	ViewTreeObserver vto;
 	LayoutInflater inflater;
 	// Button
-	Button btn_addCourses;
+	Button btn_addCourses, btn_settings;
 	
 	/*
 	 * Announce all the other member variables here.
@@ -71,6 +72,18 @@ public class MainActivity extends Activity {
 			}		
 		});
 		
+		
+//
+//		btn_settings.setOnClickListener(new Button.OnClickListener(){
+//			public void onClick(View v) {
+//				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//				builder.setTitle("选择您要进行的操作");
+//				builder.setNegativeButton("快速导入已选课程", new DialogInterface.OnClickListener(){
+//					
+//				});
+//			}
+//		});
+//		
 
 		/***************************************************************
 		 * Get all the chosen courses from local file.
@@ -116,6 +129,7 @@ public class MainActivity extends Activity {
 			}
 		});
 		
+		
 			
 	}
 	
@@ -159,6 +173,17 @@ public class MainActivity extends Activity {
 					Log.v(Tag, "after TextViews.findViewById tv_name == null?: " + Boolean.toString(tv_name == null));
 					tv_name.setText(c.name);
 					tv_classroom.setText(c.courseTimeLocations[j].classroom);
+					final Bundle bndl = new Bundle();
+					bndl.putInt("position", i);
+					llNew.setOnClickListener(new View.OnClickListener() {						
+						@Override
+						public void onClick(View v) {
+							Intent iDetail = new Intent(MainActivity.this, CourseDetailActivity.class);
+							iDetail.putExtras(bndl);
+							startActivity(iDetail);
+							MainActivity.this.finish();
+						}
+					});
 					Log.v(Tag, "after TextViews.setText");
 					int x = xStart + widthBlock * (c.courseTimeLocations[j].day);
 					int y = yStart + heightBlock * (cTL.getStartEndOrder()[0]-1);

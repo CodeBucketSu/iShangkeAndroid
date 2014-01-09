@@ -241,7 +241,9 @@ public class MoreOptionActivity extends Activity{
 				request += spnCredit.getSelectedItem().toString();
 				
 				// Conflict
-				
+				if(ckbCollision.isChecked()){
+					
+				}
 				
 				// Return the request to the AddCoursesActivity
 				Log.v(Tag, "before Intent.");
