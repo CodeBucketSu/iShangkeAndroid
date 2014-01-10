@@ -114,9 +114,21 @@ public class AddCoursesActivity extends Activity{
 		 **************************************************************/
 		btn_moreOpts.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
+				try {
+					coursesChosen = fh.readCoursesChosenFromFile();
+					Log.v(Tag, "After readCoursesChosenFromFile, the length of coursesChosen: " + Integer.toString(coursesChosen.length()));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					Log.e(Tag, "Error in readCoursesChosenFromFile().");
+					e.printStackTrace();
+					coursesChosen = new CourseList();
+				}
 				String currentKeyword = edt_keyword.getText().toString();
+				String chosenConfigIDs = coursesChosen.getAllCoursesConfigID();
+				Log.v(Tag, "chosenConfigIDs: " + chosenConfigIDs);
 				Bundle bn = new Bundle();
 				bn.putString("text", currentKeyword);
+				bn.putString("chosenConfigID", chosenConfigIDs);
 				Intent iMore = new Intent(getApplicationContext(), MoreOptionActivity.class);
 				iMore.putExtras(bn);
 				startActivity(iMore);		

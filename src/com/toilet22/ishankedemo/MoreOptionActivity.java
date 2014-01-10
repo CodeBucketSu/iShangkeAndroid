@@ -96,7 +96,7 @@ public class MoreOptionActivity extends Activity{
 	Spinner spnDepartment, spnCourseType, spnTeachingWay, spnExamWay;
 	Spinner spnCreditRestriction, spnCredit;
 	Button btnSearch;
-	String keywordFromBundle;
+	String keywordFromBundle, chosenConfigIDs;
 	Bundle bn;
 	
 	/*
@@ -125,6 +125,7 @@ public class MoreOptionActivity extends Activity{
 		edtxtSearch = (EditText)findViewById(R.id.editText_search_keywords);
 		bn = getIntent().getExtras();
 		keywordFromBundle = bn.getString("text");
+		chosenConfigIDs = bn.getString("chosenConfigID");
 		if(keywordFromBundle != null)	edtxtSearch.setText(keywordFromBundle);
 		
 		//This is the spinner for department
@@ -242,7 +243,7 @@ public class MoreOptionActivity extends Activity{
 				
 				// Conflict
 				if(ckbCollision.isChecked()){
-					
+					request += "&chose=" + chosenConfigIDs;					
 				}
 				
 				// Return the request to the AddCoursesActivity
