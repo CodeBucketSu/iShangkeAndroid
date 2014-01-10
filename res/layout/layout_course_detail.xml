@@ -108,7 +108,7 @@
                 android:maxHeight="30dp"
                 android:maxWidth="30dp"
                 android:padding="3dp"
-                android:src="@drawable/ttl_book" />
+                android:src="@drawable/ttl_campus" />
 
             <TextView
                 android:id="@+id/tv_detail_ttl_campus"
@@ -178,7 +178,7 @@
                 android:maxHeight="30dp"
                 android:maxWidth="30dp"
                 android:padding="3dp"
-                android:src="@drawable/ttl_book" />
+                android:src="@drawable/ttl_department" />
 
             <TextView
                 android:id="@+id/tv_detail_ttl_department"

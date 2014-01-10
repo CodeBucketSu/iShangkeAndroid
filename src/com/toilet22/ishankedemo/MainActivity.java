@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -73,17 +74,24 @@ public class MainActivity extends Activity {
 		});
 		
 		
-//
+
 //		btn_settings.setOnClickListener(new Button.OnClickListener(){
 //			public void onClick(View v) {
 //				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//				builder.setTitle("选择您要进行的操作");
-//				builder.setNegativeButton("快速导入已选课程", new DialogInterface.OnClickListener(){
-//					
+//				builder.setTitle("快速导入已选课程").setMessage("该操作将会覆盖目前课表中所有的课程，是否继续导入？");
+//				builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int which) {
+//						
+//					}
+//				});
+//				builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int which) {
+//						return;
+//					}
 //				});
 //			}
 //		});
-//		
+		
 
 		/***************************************************************
 		 * Get all the chosen courses from local file.
@@ -202,5 +210,5 @@ public class MainActivity extends Activity {
 	
 	
 
-
+	
 }
