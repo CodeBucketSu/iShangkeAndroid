@@ -114,6 +114,7 @@ public class Course {
 			for(int i = 0; i < courseTimeLocations.length; i++){
 				result += courseTimeLocations[i].getTimeAndLocationInString();
 			}
+			result = result.substring(0, result.length()-1);
 		}
 		return result;
 	}
