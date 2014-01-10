@@ -121,6 +121,7 @@ public class CourseListAdapter extends BaseAdapter{
 					// judge
 					if(newCourse != null){
 						newCourse.configID = holder.tv_configId.getText().toString();
+						newCourse.addConfigIDToJson();
 						if(courses!=null){
 							if(newCourse.ifConflict(coursesChosen)){
 								Toast.makeText(context, "与现有课程有冲突", 

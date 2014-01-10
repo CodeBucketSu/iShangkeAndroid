@@ -23,8 +23,10 @@ public class HttpHelper {
 	private static final String Tag = "HttpHelper";
 	private static final int TIMEOUT = 10000;
 
+
 	private static final String SERVER_URL = "http://ishangke.net";
 //	private static final String SERVER_URL = "124.16.154.220";
+
 	
 	private static final String SEARCH_COURSES = "/searchcourses.php";
 	private static final String GET_COURSE = "/getcourse.php";

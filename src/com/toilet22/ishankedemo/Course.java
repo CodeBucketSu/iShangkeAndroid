@@ -44,6 +44,21 @@ public class Course {
 	}
 	
 	
+	public void addConfigIDToJson() {
+		if(strJSON!=""){
+			try {
+				JSONObject jobj = new JSONObject(strJSON);
+				jobj.put(IShangkeHeader.LIST_ITEM_CONFIG_ID, configID);
+				strJSON = jobj.toString();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				Log.v(Tag, "strJSON: " + strJSON);
+			}
+		}
+	}
+	
+	
 	public boolean ifConflict(Course otherCourse){
 		int len_this = courseTimeLocations.length;
 		int len_other = otherCourse.courseTimeLocations.length;

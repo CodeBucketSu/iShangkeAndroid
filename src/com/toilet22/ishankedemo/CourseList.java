@@ -44,6 +44,15 @@ public class CourseList {
 		}
 	}
 	
+	public String getAllCoursesConfigID(){
+		String configIDs = "";
+		for(int i=0; i<length(); ++i){
+			configIDs += getCourse(i).configID + ",";
+		}
+		configIDs = configIDs.substring(0, configIDs.length()-1);
+		return configIDs;
+	}
+	
 	public boolean addCourse(Course c){
 		if(c!=null){
 			courseList.add(c);
