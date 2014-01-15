@@ -165,7 +165,7 @@ public class Course {
 		
 		public String getTimeAndLocationInString(){
 			String tal = "";
-			tal = tal + Integer.toString(weeks[0]) + "~" + Integer.toString(weeks[weeks.length-1]) + "周";
+			tal += getWeekInString();
 			switch(day){
 				case 1:
 					tal += " 星期一   ";
@@ -194,6 +194,51 @@ public class Course {
 			tal = tal + Integer.toString(orders[0]) + "~" + Integer.toString(orders[orders.length-1]) + "节";
 			tal = tal + " " + classroom + "\n";
 			return tal;
+		}
+		
+		/*
+		 * This method handles some strange case of the weeks of courses.
+		 */
+		public String getWeekInString(){
+			String w = "";
+			if(weeks[weeks.length-1]-weeks[0]==weeks.length-1){
+				w = w + Integer.toString(weeks[0]) + "~" + Integer.toString(weeks[weeks.length-1]) + "周";
+			}else{
+				// The weeks are not in succession.
+				String s="", e="";
+				for(int i=0; i<weeks.length; i++){
+					if(s == ""){	
+						// a new serial.
+						s = Integer.toString(weeks[i]);
+					}else{
+						if(weeks[i]==weeks[i-1]+1){
+							// The current serial is longer.
+							e = Integer.toString(weeks[i]);
+						}else{
+							// The current serial is ended.
+							if(e == ""){
+								// The current serial has only one member.
+								w = w + s + ",";
+								// Init a new serial.
+								s = Integer.toString(weeks[i]);
+							}else{
+								// The current serial has more than one member.
+								w = w + s + "~" + e + ",";
+								// Init a new serial.
+								s = Integer.toString(weeks[i]);
+								e = "";
+							}
+						}
+					}
+				}
+				//There is still one serial unprocessed.
+				if(e != ""){
+					w = w + s + "~" + e + "周";
+				}else{
+					w = w + s + "周";				
+				}
+			}
+			return w;
 		}
 	}
 	

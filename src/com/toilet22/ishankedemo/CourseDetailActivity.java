@@ -74,7 +74,6 @@ public class CourseDetailActivity extends Activity {
 		 ***************************************************************/
 		tv_name.setText(course.name);
 		tv_teacher.setText(course.teacher);
-		tv_teacher.setText(course.type);
 		tv_period.setText(Integer.toString(course.period));
 		tv_credit.setText(Double.toString(course.credit));
 		tv_teachWay.setText(course.teachWay);

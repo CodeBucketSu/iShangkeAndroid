@@ -94,7 +94,14 @@ public class JSONHelper {
 			c.credit = jObj.getDouble(IShangkeHeader.DETAIL_CREDIT);
 			c.teachWay = jObj.getString(IShangkeHeader.DETAIL_TEACHING_WAY);
 			c.examWay = jObj.getString(IShangkeHeader.DETAIL_EXAM_WAY);
-
+			try{
+				c.configID = jObj.getString(IShangkeHeader.LIST_ITEM_CONFIG_ID);
+			}catch(Exception e){
+				Log.e(Tag, "No ConfigID.");
+				c.configID = "";
+				e.printStackTrace();
+			}
+			
 			c.type = Course.getTypeFromCourseID(c.courseID);
 			c.department = Course.getDepartmentFromCourseID(c.courseID);
 			c.campus = Course.getCampusFromCourseID(c.courseID);
