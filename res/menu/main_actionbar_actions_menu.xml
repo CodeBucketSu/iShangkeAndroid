@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:ishangke="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/main_action_add"
+  		android:title="新增项目"
+        android:icon="@drawable/actionbar_new"
+        android:showAsAction="always"/>
+   
+    <item 
+        android:id="@+id/main_action_overflow"
+        android:title="更多操作"
+        android:icon="@drawable/actionbar_overflow"
+        android:showAsAction="always">
+        <menu >
+            <item 
+	        android:id="@+id/main_action_contactus"
+	        android:title="关于开发者"
+	        android:icon="@drawable/actionbar_email"
+	        android:showAsAction="never"/>
+        </menu>
+    </item>
+        
+	    
+
+</menu>

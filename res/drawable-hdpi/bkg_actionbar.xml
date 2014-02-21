@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <!-- item background -->
-    <item>
+    <item >
         <shape android:shape="rectangle">
-            <gradient android:angle="90" 
-                android:startColor="#55eeeeee"
-                android:centerColor="#55000000"
-                android:endColor="#55eeeeee"/>
-        </shape>
-    </item>
-    <!-- item foreground -->
-    <item 
-        android:bottom="1dp">
-        <shape android:shape="rectangle">
-            <solid android:color="#e0e0ff"/>
+            <solid android:color="#3498db"/>
         </shape>
     </item>
 

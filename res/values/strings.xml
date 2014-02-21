@@ -34,6 +34,7 @@
     <string name="search_init">请输入课程名称</string>
     <string name="search_go">搜索</string>
     <string name="search_result">搜索结果</string>
+    <string name="serach_condition_default">搜索条件：所有校区，所有学院，任意课程类型，任意授课方式，任意考试方式，学分任意</string>
     
     <string name="campus_Y">玉泉路</string>
     <string name="campus_Z">中关村</string>
@@ -50,6 +51,7 @@
     <string name="sertch_go">搜索</string>
     
     
+    <string name="detail_ttl">课程详情</string>
     <string name="detail_ttl_name">课程名称</string>
     <string name="detail_ttl_teacher">授课教师</string>
     <string name="detail_ttl_type">课程类型</string>

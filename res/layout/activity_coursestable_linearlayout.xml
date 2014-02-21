@@ -3,51 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bkg_actionbar" >
-
-        <Button
-            android:id="@+id/button_addCourse_advancedSearch"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="2dp"
-            android:layout_marginRight="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@drawable/bkg_btn_add"
-            android:minHeight="10dp"
-            android:minWidth="10dp" />
-
-        <Button
-            android:id="@+id/button_detail_delete"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@drawable/bkg_btn_settings"
-            android:minHeight="10dp"
-            android:minWidth="10dp" />
-
-        <TextView
-            android:id="@+id/textView_search_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="第 1 周"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#555555" />
-
-    </RelativeLayout>
     
     <AbsoluteLayout 
     android:id="@+id/table_container"

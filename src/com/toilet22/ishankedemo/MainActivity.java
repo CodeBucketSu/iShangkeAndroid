@@ -1,19 +1,26 @@
 package com.toilet22.ishankedemo;
 
+
+import java.lang.reflect.Field;
+
 import com.toilet22.ishankedemo.Course.CourseTimeLocation;
+
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.widget.SearchView;
 
 import android.os.Bundle;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.widget.AbsoluteLayout;
@@ -21,7 +28,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends  SherlockActivity {
 	public static final String Tag = "MainActivity";
 	
 
@@ -35,8 +42,6 @@ public class MainActivity extends Activity {
 	LinearLayout lnLayout;
 	ViewTreeObserver vto;
 	LayoutInflater inflater;
-	// Button
-	Button btn_addCourses, btn_settings;
 	
 	/*
 	 * Announce all the other member variables here.
@@ -62,16 +67,6 @@ public class MainActivity extends Activity {
 		
 		absLayout = (AbsoluteLayout)findViewById(R.id.table_container);
 		lnLayout = (LinearLayout)findViewById(R.id.table);
-
-		btn_addCourses = (Button)findViewById(R.id.button_addCourse_advancedSearch);
-		btn_addCourses.setOnClickListener(new Button.OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				Intent iAdd = new Intent(MainActivity.this, AddCoursesActivity.class);
-				startActivity(iAdd);
-				MainActivity.this.finish();
-			}		
-		});
 		
 		
 
@@ -157,6 +152,34 @@ public class MainActivity extends Activity {
 			Log.v(Tag, "before drawCourses(coursesChosen)");
 			drawCourses(coursesChosen);
 		}
+	}
+	
+	
+	public boolean onCreateOptionsMenu(Menu menu){
+
+		// Inflate the menu items for use in the action bar
+		    MenuInflater inflater = getSupportMenuInflater();
+		    inflater.inflate(R.menu.main_actionbar_actions_menu, menu);
+		    return super.onCreateOptionsMenu(menu);
+
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item){
+		// Handle presses on the action bar items
+		switch (item.getItemId()){
+			case R.id.main_action_add:
+				Intent itentAddCourse = new Intent(MainActivity.this, SearchCourseActivity.class);
+				startActivity(itentAddCourse);
+				return true;
+			case R.id.main_action_overflow:
+				return true;
+			case R.id.main_action_contactus:
+				return true;
+			
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+		
 	}
 	
 	/*

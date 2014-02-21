@@ -9,4 +9,22 @@
         <!-- API 14 theme customizations can go here. -->
     </style>
 
+    <style name="iShangkeActionBarTheme"
+           parent="@style/Theme.Sherlock.Light.DarkActionBar">       
+        
+        <!-- Support library compatibility -->
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        
+    </style>
+
+    <!-- general styles for the action bar -->
+    <style name="MyActionBar"
+           parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+
+        <!-- Support library compatibility -->
+        <item name="android:background">@color/peter_river</item>
+        <item name="android:backgroundStacked">@color/peter_river</item>
+        <item name="android:backgroundSplit">@color/peter_river</item>
+    </style>
+            
 </resources>

@@ -5,41 +5,12 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:orientation="vertical" >
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:background="@drawable/bkg_actionbar"
-        android:minHeight="35dp" >
-
-        <TextView
-            android:id="@+id/textView_search_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="更多选项"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#555555" />
-
-    </RelativeLayout>
     
     
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
-            <EditText
-                android:id="@+id/editText_search_keywords"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="@string/search_init" >
-
-                <requestFocus />
-            </EditText>
 
         </LinearLayout>
 
@@ -124,14 +95,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/conflict" />
-
-        <Button
-            android:id="@+id/button_moreoptions_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:text="@string/search_go" />
 
 </LinearLayout>
 

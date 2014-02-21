@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ishangke="http://schemas.android.com/apk/res-auto">
+    <item 
+        android:id="@+id/search_result_action_search"
+        android:title="@string/search_go"
+        android:icon="@drawable/search"
+        android:showAsAction="always"
+        ishangke:actionViewClass="com.actionbarsherlock.widget.SearchView"/>
+
+</menu>

@@ -3,7 +3,13 @@ package com.toilet22.ishankedemo;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import android.app.Activity;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.widget.SearchView;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -27,16 +33,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class AddCoursesActivity extends Activity{
+public class SearchResultActivity extends SherlockActivity{
 	
 	private final String Tag = "AddCoursesActivity";
 	
 	/*
 	 * Announce all the components here.
 	 */
-	ListView lv_results;
-	EditText edt_keyword;
-	Button btn_moreOpts, btn_search, btn_home;
+	ListView lstvwResults;
+	Button btnEditOptoins;
+	SearchView searchView;
+	TextView txtvwOptions;
 	
 	/*
 	 * Announce all the other member fields here.
@@ -45,8 +52,8 @@ public class AddCoursesActivity extends Activity{
 	FileHelper fh;
 	
 	// For http operation.
-	String request_options;
-	String search_keywords;
+	String requestOptions;
+	String keywordsFromBundle, keywordsForSearch, keywordsFromSearchView;
 	
 	// The courses.
 	CourseList coursesChosen;
@@ -63,21 +70,16 @@ public class AddCoursesActivity extends Activity{
 		/***********************************************************************
 		 * Initialize all the component
 		 ***********************************************************************/
-		setContentView(R.layout.activity_addcourses);
-		edt_keyword = (EditText)findViewById(R.id.editText_search);
-		btn_moreOpts = (Button)findViewById(R.id.button_addCourse_advancedSearch);
-		btn_search = (Button)findViewById(R.id.button_addcourses_search_go);
-		btn_home = (Button)findViewById(R.id.button_addCourses_home);
-
-		lv_results = (ListView)findViewById(R.id.listView_courses);
-		
+		setContentView(R.layout.activity_search_results);
+		btnEditOptoins = (Button)findViewById(R.id.button_addCourse_advancedSearch);
+		lstvwResults = (ListView)findViewById(R.id.listView_courses);
 		Log.v(Tag, "Finish the initialization of components.");
 		
-
 		/***********************************************************************
 		 * Get all the chosen courses from local file. 
 		 ***********************************************************************/
 		fh = new FileHelper(this);
+		
 		
 		/*************************************************************
 		 * If this activity is started by MoreOptionActivity, it should use the request in the bundle
@@ -86,22 +88,21 @@ public class AddCoursesActivity extends Activity{
 		Bundle bndl = getIntent().getExtras();
 		if(bndl!=null){
 			// Get search_keywords and request from bundle.
-			search_keywords = bndl.getString("text");
-			request_options = bndl.getString("request");
+			keywordsFromBundle = bndl.getString("text");
+			requestOptions = bndl.getString("request");
 			
-			Log.v(Tag, "From bundle: keyword: " + search_keywords + ", request: " + request_options);
-			edt_keyword.setText(search_keywords);
-			Log.v(Tag, "after setText.");
+			Log.v(Tag, "From bundle: keyword: " + keywordsFromBundle + ", request: " + requestOptions);
 			
-			if(request_options != null){
+			
+			if(requestOptions != null){
 				// Search for couses.
 				try {
-					search_keywords = URLEncoder.encode(search_keywords, "utf-8");
+					keywordsForSearch = URLEncoder.encode(keywordsFromBundle, "utf-8");
 				} catch (Exception e1) {
 					Log.e(Tag, "Error in encoding.");
 					e1.printStackTrace();
 				}
-				Log.v(Tag, "From bundle: keyword: " + search_keywords + ", request: " + request_options);
+				Log.v(Tag, "From bundle: keyword: " + keywordsForSearch + ", request: " + requestOptions);
 				searchCoursesAndDisplay();
 			}
 		}
@@ -112,7 +113,7 @@ public class AddCoursesActivity extends Activity{
 		/*************************************************************
 		 * Set OnClickListener for btn_moreOpts.
 		 **************************************************************/
-		btn_moreOpts.setOnClickListener(new OnClickListener(){
+		btnEditOptoins.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				try {
 					coursesChosen = fh.readCoursesChosenFromFile();
@@ -123,53 +124,74 @@ public class AddCoursesActivity extends Activity{
 					e.printStackTrace();
 					coursesChosen = new CourseList();
 				}
-				String currentKeyword = edt_keyword.getText().toString();
-				String chosenConfigIDs = coursesChosen.getAllCoursesConfigID();
+				String currentKeyword = searchView.getQuery().toString();
+				String chosenConfigIDs;
+				if(coursesChosen != null){
+					chosenConfigIDs = coursesChosen.getAllCoursesConfigID();
+				}else{
+					chosenConfigIDs = "";
+				}
 				Log.v(Tag, "chosenConfigIDs: " + chosenConfigIDs);
 				Bundle bn = new Bundle();
 				bn.putString("text", currentKeyword);
 				bn.putString("chosenConfigID", chosenConfigIDs);
-				Intent iMore = new Intent(getApplicationContext(), MoreOptionActivity.class);
+				Intent iMore = new Intent(getApplicationContext(), SearchCourseActivity.class);
 				iMore.putExtras(bn);
-				startActivity(iMore);		
-				AddCoursesActivity.this.finish();
+				startActivity(iMore);
 			}		
 		});
 		
 
-		/*************************************************************
-		 * Set OnClickListener for btn_search.
-		 **************************************************************/
-		btn_search.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
-				search_keywords = edt_keyword.getText().toString();
-				try {
-					Log.v(Tag, "keywords: " + search_keywords);
-					search_keywords = URLEncoder.encode(search_keywords, "utf-8");
-				} catch (UnsupportedEncodingException e1) {
-					Log.e(Tag, "Error in encoding.");
-					e1.printStackTrace();
-				}
-				searchCoursesAndDisplay();
-			}			
-		});
 		
-
-		/*************************************************************
-		 * Set OnClickListener for btn_home.
-		 **************************************************************/
-		btn_home.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
-				Intent iMain = new Intent(AddCoursesActivity.this, MainActivity.class);
-				startActivity(iMain);
-				AddCoursesActivity.this.finish();
-			}			
-		});
 		
 		
 	}
 	
+	public boolean onCreateOptionsMenu(Menu menu){
+		Log.v(Tag, "onCreateOptionMenu");
+		// Inflate the menu items for use in the action bar
+		    MenuInflater inflater = getSupportMenuInflater();
+		    inflater.inflate(R.menu.search_courses_actionbar_actions, menu);
+		    MenuItem searchItem = menu.findItem(R.id.search_courses_action_search);
+		    final SearchView searchView = (SearchView) searchItem.getActionView();
+		    Log.v(Tag, "after getActionView");	
+		    if(searchView == null) Log.e(Tag, "searchView == null");
+		    searchView.setIconifiedByDefault(false);
+		    searchView.setSubmitButtonEnabled(true);
+		    if(keywordsFromBundle != null) {
+		    	searchView.setQuery(keywordsFromBundle, false);
+				Log.v(Tag, "searchView's query is set.");
+		    }
+		    
+		    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
+				@Override
+				public boolean onQueryTextChange(String arg0) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+
+		    	/**************************************************************
+		    	 * Go searching!
+		    	 **************************************************************/
+				@Override
+				public boolean onQueryTextSubmit(String arg0) {
+					// TODO Auto-generated method stub
+					Log.v(Tag, "OnClick.");
+					String request = "";
+					// Keywords
+					//request = request + IShangkeHeader.RQST_TEXT + "=";
+					//request += edtxtSearch.getText().toString();
+					keywordsFromSearchView = searchView.getQuery().toString();
+					Log.v(Tag, "after getting editText's text. keywords: " + keywordsFromSearchView);
+					
+					return true;
+				}		    	
+		    });
+		    return super.onCreateOptionsMenu(menu);
+
+	}
 	
+
 	/*
 	 * This method search courses using the @search_kewords and @request_options variables and 
 	 */
@@ -184,7 +206,7 @@ public class AddCoursesActivity extends Activity{
 			coursesChosen = new CourseList();
 		}
 		Log.v(Tag, "in searchForCoursesAndDisplay().");
-		String request = IShangkeHeader.RQST_TEXT + "=" + search_keywords + "&" + request_options;
+		String request = IShangkeHeader.RQST_TEXT + "=" + keywordsFromBundle + "&" + requestOptions;
 		ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = connMgr.getActiveNetworkInfo();
 		if(info != null && info.isConnected()){
@@ -194,20 +216,7 @@ public class AddCoursesActivity extends Activity{
 			Toast.makeText(getApplicationContext(), "没有网络连接", 
 					Toast.LENGTH_SHORT).show();
 		}
-	}
-
-	
-	public boolean onKeyDown(int keyCode, KeyEvent event){
-		if(keyCode == KeyEvent.KEYCODE_BACK){
-			Intent iAdd = new Intent(AddCoursesActivity.this, MainActivity.class);
-			startActivity(iAdd);
-			this.finish();
-			return true;
-		}else{
-			return super.onKeyDown(keyCode, event);
-		}
-	}
-	
+	}	
 	
 	/*
 	 * This is a subclass of AsyncTask, who searches courses from server in a background thread and 
@@ -239,7 +248,7 @@ public class AddCoursesActivity extends Activity{
 		}
 		
 		protected void onPreExecute(){
-			builder = new AlertDialog.Builder(AddCoursesActivity.this);
+			builder = new AlertDialog.Builder(SearchResultActivity.this);
 			builder.setMessage("请耐心等待哦~")
 			       .setTitle("正在搜索课程");
 			dialog = builder.create();
@@ -259,8 +268,8 @@ public class AddCoursesActivity extends Activity{
 				Log.v(Tag, "in onPostExecute.");
 				Toast.makeText(getApplicationContext(), "找到" + Integer.toString(courses.length()) +"门符合条件的课程", 
 						Toast.LENGTH_SHORT).show();
-				CourseListAdapter adapter = new CourseListAdapter(AddCoursesActivity.this, courses, coursesChosen);
-				lv_results.setAdapter(adapter);
+				CourseListAdapter adapter = new CourseListAdapter(SearchResultActivity.this, courses, coursesChosen);
+				lstvwResults.setAdapter(adapter);
 				Log.v(Tag, "after setAdapter.");
 				
 			}else{
