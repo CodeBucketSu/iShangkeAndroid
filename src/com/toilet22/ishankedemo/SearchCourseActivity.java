@@ -3,25 +3,19 @@ package com.toilet22.ishankedemo;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.widget.SearchView;
 
 
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.Spinner;
 
 
@@ -104,6 +98,12 @@ public class SearchCourseActivity extends SherlockActivity{
 	Spinner spnCreditRestriction, spnCredit;
 	String keywordFromBundle, chosenConfigIDs;
 	Bundle bn;
+	SearchView searchView;
+
+	// For file operation.
+	FileHelper fh;
+	CourseList coursesChosen;
+	
 	
 	/*
 	 * onCreate: 
@@ -115,24 +115,45 @@ public class SearchCourseActivity extends SherlockActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_courses);
+	    ActionBar actionBar = getSupportActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+
 		
+		/***********************************************************************
+		 * Get all the chosen courses from local file. 
+		 ***********************************************************************/
+		fh = new FileHelper(this);
+		try {
+			coursesChosen = fh.readCoursesChosenFromFile();
+			Log.v(Tag, "After readCoursesChosenFromFile, the length of coursesChosen: " + Integer.toString(coursesChosen.length()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Log.e(Tag, "Error in readCoursesChosenFromFile().");
+			e.printStackTrace();
+		}
+		
+		if(coursesChosen != null){
+			chosenConfigIDs = coursesChosen.getAllCoursesConfigID();
+		}else{
+			chosenConfigIDs = "";
+		}
 		/*******************************************************
 		 * Initialize all the components.
 		 ******************************************************/
 		ckbCollision = (CheckBox)findViewById(R.id.checkBox_collision);		
+		Log.v(Tag, "before find CheckBox.");
 		ckbCampusY = (CheckBox)findViewById(R.id.checkBox_campas_y);
 		ckbCampusZ = (CheckBox)findViewById(R.id.checkBox_campas_z);
 		ckbCampusH = (CheckBox)findViewById(R.id.checkBox_campas_h);
+		Log.v(Tag, "before setCheckBox.");
 		ckbCampusY.setChecked(true);
 		ckbCampusZ.setChecked(true);
 		ckbCampusH.setChecked(true);
-
+		
+		Log.v(Tag, "before setAdapter.");
+		
 		bn = getIntent().getExtras();
-		if(bn != null){
-			keywordFromBundle = bn.getString("text");
-			chosenConfigIDs = bn.getString("chosenConfigID");
-	//		if(keywordFromBundle != null)	edtxtSearch.setText(keywordFromBundle);
-		}
+
 		//This is the spinner for department
 		spnDepartment= (Spinner) findViewById(R.id.spinner_department);
 		ArrayAdapter<String> departmentAdapter = new ArrayAdapter<String>(this,
@@ -170,7 +191,8 @@ public class SearchCourseActivity extends SherlockActivity{
 				android.R.layout.simple_spinner_item, strCredits);
 		spnCredit.setAdapter(CreditAdapter);
 		
-		
+
+		Log.v(Tag, "after setAdapter.");
 		
 
 	}
@@ -179,125 +201,150 @@ public class SearchCourseActivity extends SherlockActivity{
 	
 	public boolean onCreateOptionsMenu(Menu menu){
 		Log.v(Tag, "onCreateOptionMenu");
-		// Inflate the menu items for use in the action bar
-		    MenuInflater inflater = getSupportMenuInflater();
-		    inflater.inflate(R.menu.search_courses_actionbar_actions, menu);
-		    MenuItem searchItem = menu.findItem(R.id.search_result_action_search);
-		    final SearchView searchView = (SearchView) searchItem.getActionView();
-		    Log.v(Tag, "after getActionView");	
-		    if(searchView == null) Log.e(Tag, "searchView == null");
-		    searchView.setIconifiedByDefault(false);
-		    searchView.setSubmitButtonEnabled(true);
-		    searchView.setQueryHint("请输入课程名称");
-		    
-		    
-		    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
+		searchView = new SearchView(getSupportActionBar().getThemedContext());
+        searchView.setQueryHint("请输入课程名称");
+        searchView.setIconifiedByDefault(false);
+        searchView.setSubmitButtonEnabled(true);
+        
+	    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
 
-		    	/**************************************************************
-		    	 * Go searching!
-		    	 **************************************************************/
+	    	/**************************************************************
+	    	 * Go searching!
+	    	 **************************************************************/
+
+			@Override
+			public boolean onQueryTextChange(String arg0) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean onQueryTextSubmit(String arg0) {
+				// TODO Auto-generated method stub
+				Log.v(Tag, "OnClick.");
+				String request = "";
+				String stringOfCondition = "搜索条件：";
 				
-
-				@Override
-				public boolean onQueryTextChange(String arg0) {
-					// TODO Auto-generated method stub
-					return false;
+				String keywords = searchView.getQuery().toString();
+				Log.v(Tag, "after getting editText's text. keywords: " + keywords);
+				
+				// Campus
+				request = request  + IShangkeHeader.RQST_CAMPUS + "=";
+				stringOfCondition += "校区：";
+				if(!ckbCampusY.isChecked() && !ckbCampusZ.isChecked() && !ckbCampusH.isChecked()){
+					ckbCampusY.setChecked(true);
+					ckbCampusZ.setChecked(true);
+					ckbCampusH.setChecked(true);
 				}
-
-				@Override
-				public boolean onQueryTextSubmit(String arg0) {
-					// TODO Auto-generated method stub
-					Log.v(Tag, "OnClick.");
-					String request = "";
-					// Keywords
-					//request = request + IShangkeHeader.RQST_TEXT + "=";
-					//request += edtxtSearch.getText().toString();
-					String keywords = searchView.getQuery().toString();
-					Log.v(Tag, "after getting editText's text. keywords: " + keywords);
-					
-					// Campus
-					if(!ckbCampusY.isChecked() && !ckbCampusZ.isChecked() && !ckbCampusH.isChecked()){
-						ckbCampusY.setChecked(true);
-						ckbCampusZ.setChecked(true);
-						ckbCampusH.setChecked(true);
-					}
-					//request = request + "&" + IShangkeHeader.RQST_CAMPUS + "=";
-					request = request  + IShangkeHeader.RQST_CAMPUS + "=";
-					if(ckbCampusY.isChecked()){	request += "Y";}
-					if(ckbCampusZ.isChecked()){ request += "Z";}
-					if(ckbCampusH.isChecked()){ request += "H";}
-					
-					Log.v(Tag, "after chekBoxes.");
-					
-					// Department
-					request = request + "&" + IShangkeHeader.RQST_DEPARTMENT + "=";
-					request += rqstDepartmentNames[spnDepartment.getSelectedItemPosition()];
-					Log.v(Tag, "after department.");
-					
-					// Coursetype
-					request = request + "&" + IShangkeHeader.RQST_COURSE_TYPE + "=";
+				if(ckbCampusY.isChecked() && ckbCampusZ.isChecked() && ckbCampusH.isChecked()){
+					stringOfCondition += "所有校区";
+					request += "YZH";
+				}else{
+					if(ckbCampusY.isChecked()){	request += "Y"; stringOfCondition += " 玉泉路";}
+					if(ckbCampusZ.isChecked()){ request += "Z"; stringOfCondition += " 中关村";}
+					if(ckbCampusH.isChecked()){ request += "H"; stringOfCondition += " 雁栖湖";}
+				}
+				Log.v(Tag, "after chekBoxes.");
+				
+				// Department
+				request = request + "&" + IShangkeHeader.RQST_DEPARTMENT + "=";
+				request += rqstDepartmentNames[spnDepartment.getSelectedItemPosition()];
+				stringOfCondition += "；学院：" + spnDepartment.getSelectedItem().toString();
+				Log.v(Tag, "after department.");
+				
+				// Coursetype
+				request = request + "&" + IShangkeHeader.RQST_COURSE_TYPE + "=";
+				try {
+					request += URLEncoder.encode(rqstCourseTypes[spnCourseType.getSelectedItemPosition()], "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					Log.e(Tag, "Error in courseType request.");
+					request += "";
+					e.printStackTrace();
+				}
+				stringOfCondition += "；类型：" + spnCourseType.getSelectedItem().toString();
+				Log.v(Tag, "after courseType.");
+				
+				// Teaching way
+				if(spnTeachingWay.getSelectedItemPosition()!=0){
+					request = request + "&" + IShangkeHeader.RQST_TEACHING_WAY + "=";
 					try {
-						request += URLEncoder.encode(rqstCourseTypes[spnCourseType.getSelectedItemPosition()], "utf-8");
+						request += URLEncoder.encode(spnTeachingWay.getSelectedItem().toString(), "utf-8");
 					} catch (UnsupportedEncodingException e) {
 						Log.e(Tag, "Error in courseType request.");
 						request += "";
 						e.printStackTrace();
 					}
-					Log.v(Tag, "after courseType.");
-					
-					// Teaching way
-					if(spnTeachingWay.getSelectedItemPosition()!=0){
-						request = request + "&" + IShangkeHeader.RQST_TEACHING_WAY + "=";
-						try {
-							request += URLEncoder.encode(spnTeachingWay.getSelectedItem().toString(), "utf-8");
-						} catch (UnsupportedEncodingException e) {
-							Log.e(Tag, "Error in courseType request.");
-							request += "";
-							e.printStackTrace();
-						}
-						Log.v(Tag, "after teaching way.");
+					Log.v(Tag, "after teaching way.");
+				}
+				stringOfCondition += "；授课：" + spnTeachingWay.getSelectedItem().toString();
+				
+				// Examing way
+				if(spnExamWay.getSelectedItemPosition()!=0){
+					request = request + "&" + IShangkeHeader.RQST_EXAM_WAY + "=";
+					try {
+						request += URLEncoder.encode(spnExamWay.getSelectedItem().toString(), "utf-8");
+					} catch (UnsupportedEncodingException e) {
+						Log.e(Tag, "Error in courseType request.");
+						request += "";
+						e.printStackTrace();
 					}
-					
-					// Examing way
-					if(spnExamWay.getSelectedItemPosition()!=0){
-						request = request + "&" + IShangkeHeader.RQST_EXAM_WAY + "=";
-						try {
-							request += URLEncoder.encode(spnExamWay.getSelectedItem().toString(), "utf-8");
-						} catch (UnsupportedEncodingException e) {
-							Log.e(Tag, "Error in courseType request.");
-							request += "";
-							e.printStackTrace();
-						}
-						Log.v(Tag, "after exam way.");
-					}
+					Log.v(Tag, "after exam way.");
+				}
+				stringOfCondition += "；考试：" + spnExamWay.getSelectedItem().toString();
 
-					// Credit
-					request = request + "&" + IShangkeHeader.RQST_CREDIT_RESTRICTION + "=";
-					request += rqstCreditRestrictions[spnCreditRestriction.getSelectedItemPosition()];
-					request = request + "&" + IShangkeHeader.RQST_CREDIT + "=";
-					request += spnCredit.getSelectedItem().toString();
-					
-					// Conflict
-					if(ckbCollision.isChecked()){
-						request += "&chose=" + chosenConfigIDs;					
-					}
-					
-					// Return the request to the AddCoursesActivity
-					Log.v(Tag, "before Intent.");
-					Intent iSearch = new Intent(SearchCourseActivity.this, SearchResultActivity.class);
-					Bundle bndl = new Bundle();
-					bndl.putString("text", keywords);
-					bndl.putString("request", request);
-					iSearch.putExtras(bndl);
-					startActivity(iSearch);
-					//SearchCourseActivity.this.finish();
-					return true;
-				}		    	
-		    });
-		    return super.onCreateOptionsMenu(menu);
+				// Credit
+				request = request + "&" + IShangkeHeader.RQST_CREDIT_RESTRICTION + "=";
+				request += rqstCreditRestrictions[spnCreditRestriction.getSelectedItemPosition()];
+				request = request + "&" + IShangkeHeader.RQST_CREDIT + "=";
+				request += spnCredit.getSelectedItem().toString();
+				stringOfCondition += "；" + "学分：" + spnCreditRestriction.getSelectedItem().toString() + spnCredit.getSelectedItem().toString();
+				
+				// Conflict
+				if(ckbCollision.isChecked()){
+					request += "&chose=" + chosenConfigIDs;		
+					stringOfCondition += "；时间：与已选课程不冲突";
+				}
+				
+				// Return the request to the AddCoursesActivity
+				Log.v(Tag, "before Intent.");
+				Intent iSearch = new Intent(SearchCourseActivity.this, SearchResultActivity.class);
+				Bundle bndl = new Bundle();
+				bndl.putString("text", keywords);
+				bndl.putString("request", request);
+				bndl.putString("condition", stringOfCondition);
+				iSearch.putExtras(bndl);
+				startActivity(iSearch);
+				//SearchCourseActivity.this.finish();
+				return true;
+			}		    	
+	    });
+	    
+	    menu.add("Search")
+        .setIcon(R.drawable.search)
+        .setActionView(searchView)
+        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        		
+	    return super.onCreateOptionsMenu(menu);
 
 	}
 	
+	public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(this,MainActivity.class);
+                startActivity(intent);
+                return true;
+            
+            default:
+            	return super.onOptionsItemSelected(item);
+        }
+    }
+	
+//	public Intent getSupportParentActivityIntent(){
+//		Log.v(Tag, "getSupportParentActivityIntent");
+//		Intent intent = new Intent(this,MainActivity.class);
+//        return intent;
+//	}
 //	public boolean onOptionsItemSelected(MenuItem item){
 //		// Handle presses on the action bar items
 //		switch (item.getItemId()){

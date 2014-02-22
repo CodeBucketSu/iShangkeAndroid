@@ -3,19 +3,13 @@
     <!-- item background -->
     <item>
         <shape android:shape="rectangle">
-            <gradient android:angle="90" 
-                android:startColor="#55eeeeee"
-                android:centerColor="#55000000"
-                android:endColor="#55eeeeee"/>
+            <solid android:color="#3498db"/>
         </shape>
     </item>
     <!-- item foreground -->
-    <item android:left="3dp"
-        android:right="3dp"
-        android:top="2dp"
-        android:bottom="2dp">
+    <item >
         <shape android:shape="rectangle">
-            <solid android:color="#f0f0f0"/>
+            <solid android:color="#ecf0f1"/>
         </shape>
     </item>
 </layer-list>

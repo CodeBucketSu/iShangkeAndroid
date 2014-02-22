@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -41,8 +42,8 @@ public class SearchResultActivity extends SherlockActivity{
 	 * Announce all the components here.
 	 */
 	ListView lstvwResults;
-	Button btnEditOptoins;
-	SearchView searchView;
+//	Button btnEditOptoins;
+//	SearchView searchView;
 	TextView txtvwOptions;
 	
 	/*
@@ -54,6 +55,7 @@ public class SearchResultActivity extends SherlockActivity{
 	// For http operation.
 	String requestOptions;
 	String keywordsFromBundle, keywordsForSearch, keywordsFromSearchView;
+	String stringOfCondition;
 	
 	// The courses.
 	CourseList coursesChosen;
@@ -71,8 +73,12 @@ public class SearchResultActivity extends SherlockActivity{
 		 * Initialize all the component
 		 ***********************************************************************/
 		setContentView(R.layout.activity_search_results);
-		btnEditOptoins = (Button)findViewById(R.id.button_addCourse_advancedSearch);
+	    ActionBar actionBar = getSupportActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+
+//		btnEditOptoins = (Button)findViewById(R.id.button_addCourse_advancedSearch);
 		lstvwResults = (ListView)findViewById(R.id.listView_courses);
+		txtvwOptions = (TextView)findViewById(R.id.textview_search_condition);
 		Log.v(Tag, "Finish the initialization of components.");
 		
 		/***********************************************************************
@@ -90,6 +96,8 @@ public class SearchResultActivity extends SherlockActivity{
 			// Get search_keywords and request from bundle.
 			keywordsFromBundle = bndl.getString("text");
 			requestOptions = bndl.getString("request");
+			stringOfCondition = bndl.getString("condition");
+			txtvwOptions.setText(stringOfCondition);
 			
 			Log.v(Tag, "From bundle: keyword: " + keywordsFromBundle + ", request: " + requestOptions);
 			
@@ -104,93 +112,64 @@ public class SearchResultActivity extends SherlockActivity{
 				}
 				Log.v(Tag, "From bundle: keyword: " + keywordsForSearch + ", request: " + requestOptions);
 				searchCoursesAndDisplay();
+			}else{
+				keywordsForSearch = "";
 			}
 		}
 		
 
 		
-
-		/*************************************************************
-		 * Set OnClickListener for btn_moreOpts.
-		 **************************************************************/
-		btnEditOptoins.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
-				try {
-					coursesChosen = fh.readCoursesChosenFromFile();
-					Log.v(Tag, "After readCoursesChosenFromFile, the length of coursesChosen: " + Integer.toString(coursesChosen.length()));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					Log.e(Tag, "Error in readCoursesChosenFromFile().");
-					e.printStackTrace();
-					coursesChosen = new CourseList();
-				}
-				String currentKeyword = searchView.getQuery().toString();
-				String chosenConfigIDs;
-				if(coursesChosen != null){
-					chosenConfigIDs = coursesChosen.getAllCoursesConfigID();
-				}else{
-					chosenConfigIDs = "";
-				}
-				Log.v(Tag, "chosenConfigIDs: " + chosenConfigIDs);
-				Bundle bn = new Bundle();
-				bn.putString("text", currentKeyword);
-				bn.putString("chosenConfigID", chosenConfigIDs);
-				Intent iMore = new Intent(getApplicationContext(), SearchCourseActivity.class);
-				iMore.putExtras(bn);
-				startActivity(iMore);
-			}		
-		});
-		
-
-		
-		
-		
+//
+//		/*************************************************************
+//		 * Set OnClickListener for btn_moreOpts.
+//		 **************************************************************/
+//		btnEditOptoins.setOnClickListener(new OnClickListener(){
+//			public void onClick(View v) {
+//				try {
+//					coursesChosen = fh.readCoursesChosenFromFile();
+//					Log.v(Tag, "After readCoursesChosenFromFile, the length of coursesChosen: " + Integer.toString(coursesChosen.length()));
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					Log.e(Tag, "Error in readCoursesChosenFromFile().");
+//					e.printStackTrace();
+//					coursesChosen = new CourseList();
+//				}
+//				String currentKeyword = searchView.getQuery().toString();
+//				String chosenConfigIDs;
+//				if(coursesChosen != null){
+//					chosenConfigIDs = coursesChosen.getAllCoursesConfigID();
+//				}else{
+//					chosenConfigIDs = "";
+//				}
+//				Log.v(Tag, "chosenConfigIDs: " + chosenConfigIDs);
+//				Bundle bn = new Bundle();
+//				bn.putString("text", currentKeyword);
+//				bn.putString("chosenConfigID", chosenConfigIDs);
+//				Intent iMore = new Intent(getApplicationContext(), SearchCourseActivity.class);
+//				iMore.putExtras(bn);
+//				startActivity(iMore);
+//			}		
+//		});		
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu){
 		Log.v(Tag, "onCreateOptionMenu");
-		// Inflate the menu items for use in the action bar
-		    MenuInflater inflater = getSupportMenuInflater();
-		    inflater.inflate(R.menu.search_courses_actionbar_actions, menu);
-		    MenuItem searchItem = menu.findItem(R.id.search_courses_action_search);
-		    final SearchView searchView = (SearchView) searchItem.getActionView();
-		    Log.v(Tag, "after getActionView");	
-		    if(searchView == null) Log.e(Tag, "searchView == null");
-		    searchView.setIconifiedByDefault(false);
-		    searchView.setSubmitButtonEnabled(true);
-		    if(keywordsFromBundle != null) {
-		    	searchView.setQuery(keywordsFromBundle, false);
-				Log.v(Tag, "searchView's query is set.");
-		    }
-		    
-		    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
-				@Override
-				public boolean onQueryTextChange(String arg0) {
-					// TODO Auto-generated method stub
-					return false;
-				}
 
-		    	/**************************************************************
-		    	 * Go searching!
-		    	 **************************************************************/
-				@Override
-				public boolean onQueryTextSubmit(String arg0) {
-					// TODO Auto-generated method stub
-					Log.v(Tag, "OnClick.");
-					String request = "";
-					// Keywords
-					//request = request + IShangkeHeader.RQST_TEXT + "=";
-					//request += edtxtSearch.getText().toString();
-					keywordsFromSearchView = searchView.getQuery().toString();
-					Log.v(Tag, "after getting editText's text. keywords: " + keywordsFromSearchView);
-					
-					return true;
-				}		    	
-		    });
-		    return super.onCreateOptionsMenu(menu);
+	    return super.onCreateOptionsMenu(menu);
 
 	}
 	
+	public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(this,MainActivity.class);
+                startActivity(intent);
+                return true;
+            
+            default:
+            	return super.onOptionsItemSelected(item);
+        }
+    }
 
 	/*
 	 * This method search courses using the @search_kewords and @request_options variables and 
@@ -206,7 +185,7 @@ public class SearchResultActivity extends SherlockActivity{
 			coursesChosen = new CourseList();
 		}
 		Log.v(Tag, "in searchForCoursesAndDisplay().");
-		String request = IShangkeHeader.RQST_TEXT + "=" + keywordsFromBundle + "&" + requestOptions;
+		String request = IShangkeHeader.RQST_TEXT + "=" + keywordsForSearch + "&" + requestOptions;
 		ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = connMgr.getActiveNetworkInfo();
 		if(info != null && info.isConnected()){

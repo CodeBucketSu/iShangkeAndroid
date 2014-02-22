@@ -20,21 +20,17 @@
             android:background="@color/concrete">
 
             <TextView
-                android:id="@+id/textview_search_default_condition"
-                android:text="@string/serach_condition_default"
+                android:id="@+id/textview_search_condition"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1"
-                android:textSize="9sp"
-                android:textColor="@color/white"/>
-            <Button
-            android:id="@+id/button_addCourse_advancedSearch"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/actionbar_edit"
-            android:minHeight="10dp"
-            android:minWidth="10dp" />
+                android:text="@string/serach_condition_default"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
 
         </LinearLayout>
 
@@ -44,9 +40,6 @@
         android:id="@+id/listView_courses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="1dp" >
 
     </ListView>
