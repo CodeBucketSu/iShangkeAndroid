@@ -53,7 +53,7 @@ public class Course {
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Log.v(Tag, "strJSON: " + strJSON);
+				Log.e(Tag, "strJSON: " + strJSON);
 			}
 		}
 	}
@@ -79,7 +79,7 @@ public class Course {
 	}
 	
 	public CourseTimeLocation[] JSON2CourseTimeLocations(JSONArray jArry) throws JSONException{
-		Log.v(Tag, "in JSON2CourseTimeLocations().");
+		//Log.v(Tag, "in JSON2CourseTimeLocations().");
 
 		int len_cTL = jArry.length();
 		
@@ -93,7 +93,7 @@ public class Course {
 	
 	private CourseTimeLocation JSON2CourseTimeLocation(JSONObject jObj) throws JSONException{
 		CourseTimeLocation cTL = new CourseTimeLocation();
-		Log.v(Tag, "in JSON2CourseTimeLocation().");
+		//Log.v(Tag, "in JSON2CourseTimeLocation().");
 		
 		// cTL.weeks
 		int len_week = jObj.getJSONArray(IShangkeHeader.DETAIL_WEEK).length();
@@ -101,12 +101,12 @@ public class Course {
 		for(int i=0; i<len_week; i++){
 			cTL.weeks[i] = jObj.getJSONArray(IShangkeHeader.DETAIL_WEEK).getInt(i);
 		}
-		Log.v(Tag, "after cTL.weeks.");
+		//Log.v(Tag, "after cTL.weeks.");
 
 		
 		//cTL.day
 		cTL.day = jObj.getInt(IShangkeHeader.DETAIL_DAY);
-		Log.v(Tag, "after cTL.day.");
+		//Log.v(Tag, "after cTL.day.");
 		
 		//cTL.order
 		int len_order = jObj.getJSONArray(IShangkeHeader.DETAIL_ORDER).length();
@@ -114,11 +114,11 @@ public class Course {
 		for(int i=0; i<len_order; i++){
 			cTL.orders[i] = jObj.getJSONArray(IShangkeHeader.DETAIL_ORDER).getInt(i);
 		}
-		Log.v(Tag, "after cTL.orders.");
+		//Log.v(Tag, "after cTL.orders.");
 		
 		//cTL.classroom
 		cTL.classroom = jObj.getString(IShangkeHeader.DETAIL_CLASSROOM);
-		Log.v(Tag, "after cTL.classroom.");
+		//Log.v(Tag, "after cTL.classroom.");
 		
 		return cTL;			
 	}

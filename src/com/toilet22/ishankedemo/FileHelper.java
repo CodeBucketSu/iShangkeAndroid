@@ -38,15 +38,15 @@ public class FileHelper {
 			while((len = fis.read(buffer))!=-1){
 				bos.write(buffer, 0, len);
 			}
-			Log.v(Tag, "before new JSONObject.");
+//			Log.v(Tag, "before new JSONObject.");
 			String jsonstr = bos.toString();
 			JSONObject jobj = new JSONObject(jsonstr);
 
-			Log.v(Tag, "before JSON2Courses.");
-			Log.v(Tag, jsonstr);
+//			Log.v(Tag, "before JSON2Courses.");
+//			Log.v(Tag, jsonstr);
 			coursesChosen = JSONHelper.coursesChosenJSON2Courses(jobj);
 			
-			Log.v(Tag, "courses == null? " + Boolean.toString(coursesChosen == null));
+//			Log.v(Tag, "courses == null? " + Boolean.toString(coursesChosen == null));
 			fis.close();
 			return coursesChosen;
 			
@@ -66,7 +66,7 @@ public class FileHelper {
 		try {
 			JSONObject jo = JSONHelper.coursesChosen2JSON(courseList);
 			String strJSON = jo.toString();
-			Log.v(Tag, strJSON);
+//			Log.v(Tag, strJSON);
 			FileOutputStream outputStream = context.openFileOutput(FILE_NAME_COURSES_CHOSEN,
 					Context.MODE_PRIVATE);
 			outputStream.write(strJSON.getBytes());

@@ -15,19 +15,19 @@ public class JSONHelper {
 	 * The JSON object is returned by sever after SEARCH_COURSES request posted.
 	 */
 	public static CourseList searchResultsJSON2Courses(JSONObject jObj) throws JSONException{
-		Log.v(Tag, "before jobj.getJSONArray.");
+//		Log.v(Tag, "before jobj.getJSONArray.");
 		JSONArray jArry = jObj.getJSONArray(IShangkeHeader.LIST_ITEM_LIST);
 		int len = jArry.length(); 
 		if (len == 0)
 			return null;
-		Log.v(Tag, "the length of JSONArray is " + Integer.toString(len));
+//		Log.v(Tag, "the length of JSONArray is " + Integer.toString(len));
 		CourseList courseList = new CourseList();
 		JSONObject jobj;
 
-		Log.v(Tag, "before for loop.");
+//		Log.v(Tag, "before for loop.");
 		for (int i = 0; i<len; i++){
 			jobj = jArry.getJSONObject(i);
-			Log.v(Tag, "before getJSONObject.");
+//			Log.v(Tag, "before getJSONObject.");
 			courseList.addCourse(searchResultsJSON2Course(jobj));
 		}
 
@@ -39,7 +39,7 @@ public class JSONHelper {
 	 */
 	public static Course searchResultsJSON2Course(JSONObject jObj){
 		Course c = new Course();
-		Log.v(Tag, "in JSON2Course,");
+//		Log.v(Tag, "in JSON2Course,");
 		try{
 			c.name = jObj.getString(IShangkeHeader.LIST_ITEM_NAME);
 			c.teacher = jObj.getString(IShangkeHeader.LIST_ITEM_TEACHER);
@@ -61,18 +61,18 @@ public class JSONHelper {
 	
 	
 	public static CourseList coursesChosenJSON2Courses(JSONObject jObj) throws JSONException{
-		Log.v(Tag, "before jobj.getJSONArray.");
+//		Log.v(Tag, "before jobj.getJSONArray.");
 		JSONArray jArry = jObj.getJSONArray(IShangkeHeader.LIST_ITEM_LIST);
 		int len = jArry.length(); 
-		Log.v(Tag, "the length of JSONArray is " + Integer.toString(len));
+//		Log.v(Tag, "the length of JSONArray is " + Integer.toString(len));
 		CourseList courses = new CourseList();
 		JSONObject jobj;
 
-		Log.v(Tag, "before for loop.");
+//		Log.v(Tag, "before for loop.");
 		for (int i = 0; i<len; i++){
-			Log.v(Tag, "before jArry.getJSONObject(i).");
+//			Log.v(Tag, "before jArry.getJSONObject(i).");
 			jobj = new JSONObject(jArry.getString(i));
-			Log.v(Tag, "before getJSONObject.");
+//			Log.v(Tag, "before getJSONObject.");
 			courses.addCourse(courseInfoJSON2Course(jobj));
 		}
 
@@ -85,7 +85,7 @@ public class JSONHelper {
 	 */
 	public static Course courseInfoJSON2Course(JSONObject jObj){
 		Course c = new Course();
-		Log.v(Tag, "in JSON2Course,");
+//		Log.v(Tag, "in JSON2Course,");
 		try{
 			c.name = jObj.getString(IShangkeHeader.DETAIL_NAME);
 			c.teacher = jObj.getString(IShangkeHeader.DETAIL_TEACHER);
@@ -106,20 +106,20 @@ public class JSONHelper {
 			c.department = Course.getDepartmentFromCourseID(c.courseID);
 			c.campus = Course.getCampusFromCourseID(c.courseID);
 			
-			Log.v(Tag, "after getStrings.");
+//			Log.v(Tag, "after getStrings.");
 			c.strJSON = jObj.toString();
-			Log.v(Tag, "after jObj.toString().");
+//			Log.v(Tag, "after jObj.toString().");
 			
 			JSONArray jA = jObj.getJSONObject(IShangkeHeader.DETAIL_TIME)
 					.getJSONArray(IShangkeHeader.DETAIL_COURSE_TIME);
-			Log.v(Tag, "before JSON2CourseTimeLocations(jA)");
+//			Log.v(Tag, "before JSON2CourseTimeLocations(jA)");
 			c.courseTimeLocations = c.JSON2CourseTimeLocations(jA);
 			
 			
-			Log.v(Tag, "name:" + c.name + ", teacher: " + c.teacher + ", configID: " + c.configID
-					+ ", courseID: " + c.courseID);
-			Log.v(Tag, "day: " + Integer.toString(c.courseTimeLocations[0].day) + 
-					", classroom: " + c.courseTimeLocations[0].classroom);
+//			Log.v(Tag, "name:" + c.name + ", teacher: " + c.teacher + ", configID: " + c.configID
+//					+ ", courseID: " + c.courseID);
+//			Log.v(Tag, "day: " + Integer.toString(c.courseTimeLocations[0].day) + 
+//					", classroom: " + c.courseTimeLocations[0].classroom);
 			return c;
 		}catch (Exception e) {
 			Log.e(Tag, "Error in JSON2Course.");

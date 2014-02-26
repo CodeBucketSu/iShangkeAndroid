@@ -11,6 +11,15 @@
     android:paddingTop="3dp" >
 
     <TextView
+        android:id="@+id/textView_courseChosen_classroom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#eeeeee"
+        android:textSize="10sp" />
+
+    <TextView
         android:id="@+id/textView_courseChosen_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,14 +28,5 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#ffffff"
         android:textSize="11sp" />
-
-    <TextView
-        android:id="@+id/textView_courseChosen_classroom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Small Text"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#eeeeee"
-        android:textSize="10sp" />
     
 </LinearLayout>

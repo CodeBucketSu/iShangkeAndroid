@@ -1,5 +1,11 @@
 package com.toilet22.ishankedemo;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,9 +19,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CourseDetailActivity extends Activity {
+public class CourseDetailActivity extends SherlockActivity {
 	public static final String Tag = "CourseDetailActivity";
-	private Button btn_edit, btn_home, btn_delete;
+	private Button  btn_delete;
 	private TextView tv_name, tv_teacher, tv_type, tv_period, tv_credit, 
 				tv_time, tv_teachWay, tv_examWay, tv_campus, tv_department;
 	private CourseList coursesChosen;
@@ -28,8 +34,9 @@ public class CourseDetailActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.layout_course_detail);
-		btn_edit = (Button)findViewById(R.id.button_detail_edit);
-		btn_home = (Button)findViewById(R.id.button_detail_home);
+	    ActionBar actionBar = getSupportActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+	    
 		btn_delete = (Button)findViewById(R.id.button_detail_delete);
 
 		tv_name = (TextView)findViewById(R.id.tv_detail_cntnt_name);
@@ -86,16 +93,6 @@ public class CourseDetailActivity extends Activity {
 		
 		
 
-		/*************************************************************
-		 * Set OnClickListener for btn_home.
-		 **************************************************************/
-		btn_home.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
-				Intent iMain = new Intent(CourseDetailActivity.this, MainActivity.class);
-				startActivity(iMain);
-				CourseDetailActivity.this.finish();
-			}			
-		});
 
 		/*************************************************************
 		 * Set OnClickListener for btn_delete.
@@ -117,7 +114,7 @@ public class CourseDetailActivity extends Activity {
 								Toast.LENGTH_SHORT).show();
 						Intent iMain = new Intent(CourseDetailActivity.this, MainActivity.class);
 						startActivity(iMain);
-						CourseDetailActivity.this.finish();
+//						CourseDetailActivity.this.finish();
 					}
 				});
 				builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {					
@@ -131,35 +128,28 @@ public class CourseDetailActivity extends Activity {
 			}			
 		});
 		
-		/*************************************************************
-		 * Set OnClickListener for btn_edit.
-		 **************************************************************/
-		btn_edit.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(CourseDetailActivity.this);
-				builder.setMessage("不好意思哦，目前还不支持编辑课程信息~")
-				       .setTitle("编辑课程");
-				builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {					
-					public void onClick(DialogInterface dialog, int which) {
-						return;
-					}
-				});
-				AlertDialog dialog = builder.create();
-				dialog.show();
-			}
-		});
 		
 	}
 	
-	public boolean onKeyDown(int keyCode, KeyEvent event){
-		if(keyCode == KeyEvent.KEYCODE_BACK){
-			Intent iMain = new Intent(CourseDetailActivity.this, MainActivity.class);
-			startActivity(iMain);
-			this.finish();
-			return true;
-		}else{
-			return super.onKeyDown(keyCode, event);
-		}
+	
+	public boolean onCreateOptionsMenu(Menu menu){
+
+		// Inflate the menu items for use in the action bar
+//		    MenuInflater inflater = getSupportMenuInflater();
+//		    inflater.inflate(R.menu.main_actionbar_actions_menu, menu);
+		    return super.onCreateOptionsMenu(menu);
+
 	}
 	
+	public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(this,MainActivity.class);
+                startActivity(intent);
+                return true;
+            
+            default:
+            	return super.onOptionsItemSelected(item);
+        }
+    }
 }
