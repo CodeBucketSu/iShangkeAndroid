@@ -240,6 +240,13 @@ public class Course {
 			}
 			return w;
 		}
+	
+		public boolean hasCourseInTheWeek(int weekNum){
+			for(int i=0; i<weeks.length; ++i){
+				if (weeks[i] == weekNum)return true;
+			}
+			return false;
+		}
 	}
 	
 

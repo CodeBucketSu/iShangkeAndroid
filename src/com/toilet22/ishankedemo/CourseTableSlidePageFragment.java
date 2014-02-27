@@ -97,7 +97,7 @@ public class CourseTableSlidePageFragment extends Fragment {
 		vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
 			@Override
 			public void onGlobalLayout() {
-				Log.v("Toilet22","Fragment" + Integer.toString(mWeekNumber)+": vto.onGlobalLayout. ");
+//				Log.v("Toilet22","Fragment" + Integer.toString(mWeekNumber)+": vto.onGlobalLayout. ");
 				TextView tvSun1 = (TextView)rootView.findViewById(R.id.tv_sun_1);
 				LinearLayout llSun = (LinearLayout)rootView.findViewById(R.id.ll_sunday);
 				xStart = llSun.getLeft();
@@ -113,12 +113,14 @@ public class CourseTableSlidePageFragment extends Fragment {
 		vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
-				Log.v("Toilet22","Fragment" + Integer.toString(mWeekNumber)+": vto.onPreDraw. "
-						+ "isLinearLayoutDrawn:" + Boolean.toString(isLinearLayoutDrawn));
+//				Log.v("Toilet22","Fragment" + Integer.toString(mWeekNumber)+": vto.onPreDraw. "
+//						+ "isLinearLayoutDrawn:" + Boolean.toString(isLinearLayoutDrawn));
 				
 				if(!isLinearLayoutDrawn){
 //					Log.v(Tag, "PreDraw: before drawCourses(coursesChosen)");
 					drawCourses(coursesChosen);
+
+					isLinearLayoutDrawn = true;
 				}
 				return true;
 			}
@@ -158,7 +160,6 @@ public class CourseTableSlidePageFragment extends Fragment {
     public void onStop(){
     	super.onStop();
     	Log.v(Tag, "Fragment" + Integer.toString(mWeekNumber) +": onStop");
-//    	isLinearLayoutDrawn = false;
     }
     
     /**
@@ -192,36 +193,38 @@ public class CourseTableSlidePageFragment extends Fragment {
 			for (int i=0; i<len; i++){
 				Course c = courseList.getCourse(i);
 				for(int j = 0; j<c.courseTimeLocations.length; j++){
-					LinearLayout llNew = (LinearLayout) mInflater.inflate(R.layout.layout_course_chosen, null);
 					CourseTimeLocation cTL = c.courseTimeLocations[j];
-//					Log.v(Tag, "before llNew.findViewById");
-					llNew.findViewById(R.layout.layout_course_chosen);
-//					Log.v(Tag, "after llNew.findViewById. llNew == null?: " + Boolean.toString(llNew == null));
-					
-					TextView tv_name = (TextView)llNew.findViewById(R.id.textView_courseChosen_name);
-					TextView tv_classroom = (TextView)llNew.findViewById(R.id.textView_courseChosen_classroom);
-//					Log.v(Tag, "after TextViews.findViewById tv_name == null?: " + Boolean.toString(tv_name == null));
-					tv_name.setText(c.name);
-					tv_classroom.setText(c.courseTimeLocations[j].classroom);
-					final Bundle bndl = new Bundle();
-					bndl.putInt("position", i);
-					llNew.setOnClickListener(new View.OnClickListener() {						
-						@Override
-						public void onClick(View v) {
-							courseClickListener.onCourseClick(bndl);
-						}
-					});
-//					Log.v(Tag, "after TextViews.setText");
-					int x = xStart + widthBlock * (c.courseTimeLocations[j].day);
-					int y = yStart + heightBlock * (cTL.getStartEndOrder()[0]-1);
-					int width = widthBlock;
-					int height = heightBlock * (cTL.getStartEndOrder()[1]-cTL.getStartEndOrder()[0] + 1);
-//					Log.v(Tag, "x: " + Integer.toString(x) + ", y:"+Integer.toString(y)
-//							+ ", width:" + Integer.toString(width) + ", height: " + Integer.toString(height));
-					lpCourse = new AbsoluteLayout.LayoutParams(width, height, x, y);
-//					Log.v(Tag, "before addView");
-					absLayout.addView(llNew, lpCourse);
-					isLinearLayoutDrawn = true;
+					if(cTL.hasCourseInTheWeek(mWeekNumber+1)){
+						LinearLayout llNew = (LinearLayout) mInflater.inflate(R.layout.layout_course_chosen, null);
+						
+	//					Log.v(Tag, "before llNew.findViewById");
+						llNew.findViewById(R.layout.layout_course_chosen);
+	//					Log.v(Tag, "after llNew.findViewById. llNew == null?: " + Boolean.toString(llNew == null));
+						
+						TextView tv_name = (TextView)llNew.findViewById(R.id.textView_courseChosen_name);
+						TextView tv_classroom = (TextView)llNew.findViewById(R.id.textView_courseChosen_classroom);
+	//					Log.v(Tag, "after TextViews.findViewById tv_name == null?: " + Boolean.toString(tv_name == null));
+						tv_name.setText(c.name);
+						tv_classroom.setText(c.courseTimeLocations[j].classroom);
+						final Bundle bndl = new Bundle();
+						bndl.putInt("position", i);
+						llNew.setOnClickListener(new View.OnClickListener() {						
+							@Override
+							public void onClick(View v) {
+								courseClickListener.onCourseClick(bndl);
+							}
+						});
+	//					Log.v(Tag, "after TextViews.setText");
+						int x = xStart + widthBlock * (c.courseTimeLocations[j].day);
+						int y = yStart + heightBlock * (cTL.getStartEndOrder()[0]-1);
+						int width = widthBlock;
+						int height = heightBlock * (cTL.getStartEndOrder()[1]-cTL.getStartEndOrder()[0] + 1);
+	//					Log.v(Tag, "x: " + Integer.toString(x) + ", y:"+Integer.toString(y)
+	//							+ ", width:" + Integer.toString(width) + ", height: " + Integer.toString(height));
+						lpCourse = new AbsoluteLayout.LayoutParams(width, height, x, y);
+	//					Log.v(Tag, "before addView");
+						absLayout.addView(llNew, lpCourse);
+					}
 				}
 				
 			}

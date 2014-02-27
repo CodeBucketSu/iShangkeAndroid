@@ -62,7 +62,7 @@ public class MainActivity extends  SherlockFragmentActivity implements OnCourseC
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-            	setTitle("第"+Integer.toString(position)+"周");	
+            	setTitle("第"+Integer.toString(position+1)+"周");	
             }
         });
         mPager.setCurrentItem(5);
@@ -70,26 +70,6 @@ public class MainActivity extends  SherlockFragmentActivity implements OnCourseC
 		inflater = LayoutInflater.from(this);		
 			
 	}
-	
-	protected void onResume(){
-		super.onResume();
-//		if(isLinearLayoutDrawn){
-//			Log.v(Tag, "before new FileHelper().");
-//			try {
-//				Log.v(Tag, "before readCoursesChosenFromFile().");
-//				coursesChosen = fh.readCoursesChosenFromFile();
-//			} catch (Exception e2) {
-//				// TODO Auto-generated catch block
-//				Log.e(Tag, "Error in readCoursesChosenFromFile().");
-//				e2.printStackTrace();
-//			}
-//					
-//			Log.v(Tag, "before drawCourses(coursesChosen)");
-//		}
-		
-		mWeekAdapter.notifyDataSetChanged();
-	}
-	
 	
 	public boolean onCreateOptionsMenu(Menu menu){
 

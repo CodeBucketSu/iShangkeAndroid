@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 public class CourseDetailActivity extends SherlockActivity {
 	public static final String Tag = "CourseDetailActivity";
-	private Button  btn_delete;
 	private TextView tv_name, tv_teacher, tv_type, tv_period, tv_credit, 
 				tv_time, tv_teachWay, tv_examWay, tv_campus, tv_department;
 	private CourseList coursesChosen;
@@ -33,11 +32,9 @@ public class CourseDetailActivity extends SherlockActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.layout_course_detail);
+		setContentView(R.layout.activity_course_detail);
 	    ActionBar actionBar = getSupportActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
-	    
-		btn_delete = (Button)findViewById(R.id.button_detail_delete);
 
 		tv_name = (TextView)findViewById(R.id.tv_detail_cntnt_name);
 		tv_teacher = (TextView)findViewById(R.id.tv_detail_cntnt_teacher);
@@ -90,17 +87,25 @@ public class CourseDetailActivity extends SherlockActivity {
 		tv_type.setText(course.type);
 		
 		tv_time.setText(course.getTimeAndLocationInStrings());
+				
 		
-		
+	}
+	
+	
+	
+	public boolean onCreateOptionsMenu(Menu menu){
 
+		// Inflate the menu items for use in the action bar
+		    MenuInflater inflater = getSupportMenuInflater();
+		    inflater.inflate(R.menu.detail_actionbar_actions_menu, menu);
+		    return super.onCreateOptionsMenu(menu);
 
-		/*************************************************************
-		 * Set OnClickListener for btn_delete.
-		 **************************************************************/
-		btn_delete.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
-
-				AlertDialog.Builder builder = new AlertDialog.Builder(CourseDetailActivity.this);
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.detail_action_delete:
+            	AlertDialog.Builder builder = new AlertDialog.Builder(CourseDetailActivity.this);
 				builder.setMessage("确定要删除这门课程？")
 				       .setTitle("删除课程");
 				builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {					
@@ -125,27 +130,6 @@ public class CourseDetailActivity extends SherlockActivity {
 				});
 				AlertDialog dialog = builder.create();
 				dialog.show();
-			}			
-		});
-		
-		
-	}
-	
-	
-	public boolean onCreateOptionsMenu(Menu menu){
-
-		// Inflate the menu items for use in the action bar
-//		    MenuInflater inflater = getSupportMenuInflater();
-//		    inflater.inflate(R.menu.main_actionbar_actions_menu, menu);
-		    return super.onCreateOptionsMenu(menu);
-
-	}
-	
-	public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case android.R.id.home:
-                Intent intent = new Intent(this,MainActivity.class);
-                startActivity(intent);
                 return true;
             
             default:

@@ -365,17 +365,4 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_detail_delete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:background="@drawable/bkg_btn_detail_delete_course"
-        android:gravity="center"
-        android:minHeight="36dp"
-        android:text="@string/detail_ttl_deleteCourse"
-        android:textColor="#f0f0f0"
-        android:textColorLink="#f0f0f0" />
-
 </LinearLayout>
