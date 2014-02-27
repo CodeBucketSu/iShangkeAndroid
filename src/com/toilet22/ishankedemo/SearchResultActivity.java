@@ -1,6 +1,5 @@
 package com.toilet22.ishankedemo;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 
@@ -8,27 +7,14 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.widget.SearchView;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,8 +28,6 @@ public class SearchResultActivity extends SherlockActivity{
 	 * Announce all the components here.
 	 */
 	ListView lstvwResults;
-//	Button btnEditOptoins;
-//	SearchView searchView;
 	TextView txtvwOptions;
 	
 	/*

@@ -104,6 +104,11 @@ public class CourseDetailActivity extends SherlockActivity {
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
+	        case android.R.id.home:
+	            Intent intent = new Intent(this,MainActivity.class);
+	            startActivity(intent);
+	            return true;
+	            
             case R.id.detail_action_delete:
             	AlertDialog.Builder builder = new AlertDialog.Builder(CourseDetailActivity.this);
 				builder.setMessage("确定要删除这门课程？")

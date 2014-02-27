@@ -64,6 +64,9 @@
     <string name="detail_ttl_department">开课院系</string>
     <string name="detail_ttl_campus">所属校区</string>
     
-
+	<string name="download_txtv_declare">郑重承诺：我们绝不会以任何形式保存您的登陆信息</string>
+	<string name="download_txtv_warning">提示：导入已选课程将首先清空本地课表，如果您希望在课程表中呈现未选课程，请导入后重新添加</string>
+	<string name="download_ttl">导入已选课程</string>
+	
 
 </resources>

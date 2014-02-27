@@ -1,16 +1,10 @@
 package com.toilet22.ishankedemo;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -30,6 +24,7 @@ public class HttpHelper {
 	
 	private static final String SEARCH_COURSES = "/searchcourses.php";
 	private static final String GET_COURSE = "/getcourse.php";
+	private static final String GRAB = "/grab.php";
 	
 	private HttpURLConnection conn;
 	
@@ -82,7 +77,6 @@ public class HttpHelper {
 	public Course getCourseFromServer(String configID) throws Exception {
 		String strURL = SERVER_URL + GET_COURSE + "?" + IShangkeHeader.RQST_COURSE_ID + "=" + configID;
 		Log.v(Tag, "strURL: " + strURL);
-		
 		URL url= new URL(strURL);
 		Log.v(Tag, "before url.openConnection.");
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -109,6 +103,55 @@ public class HttpHelper {
 		Log.v(Tag, "course == null? " + Boolean.toString(course == null));
 		in.close();
 		return course;
+	}
+	
+	/*
+	 * This method post a GRAB request to the server and 
+	 * return the selected courses' configID of the user.
+	 */
+	public String[] getChosenCoursesConfigIDFromServer(String name, String password) throws Exception {
+		String strURL = SERVER_URL + GRAB + "?" + IShangkeHeader.RQST_NAME + "=" + name 
+				+ "&" + IShangkeHeader.RQST_PASSWORD + "=" + password;
+		Log.v(Tag, "strURL: " + strURL);
+		
+		URL url= new URL(strURL);
+
+		String configIDs[];
+		Log.v(Tag, "before url.openConnection.");
+		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+		conn.setConnectTimeout(TIMEOUT);
+		Log.v(Tag, "after setConnectionTimeout.");
+		
+		Log.v(Tag, "before conn.getInputStream.");
+		InputStream in = conn.getInputStream();
+		
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int len = 0;
+		while((len = in.read(buffer))!=-1){
+			bos.write(buffer, 0, len);
+		}
+		Log.v(Tag, "before new JSONObject.");
+		String jsonstr = bos.toString();
+		JSONObject jobj = new JSONObject(jsonstr);
+
+		Log.v(Tag, "before JSON2Courses.");
+		Log.v(Tag, jsonstr);
+		
+		boolean success = jobj.getBoolean(IShangkeHeader.CHOSEN_COURSES_SUCCESS);
+		if(success){
+			JSONArray jArry= jobj.getJSONArray(IShangkeHeader.CHOSEN_COURSES_LIST);
+			int length = jArry.length();
+			configIDs = new String[length];
+			for(int i = 0; i < jArry.length(); ++i){
+				configIDs[i] = jArry.getString(i);
+			}
+		}else{
+			Log.e(Tag, "download chosen courses configID error");
+			configIDs = null;
+		}
+		in.close();
+		return configIDs;
 	}
 	
 	

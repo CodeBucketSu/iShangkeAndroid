@@ -13,6 +13,8 @@ public class IShangkeHeader {
 	public static final String RQST_IS_COLLISION_ALLOWED = "noconflict";
 	public static final String RQST_COURSE_CHOSE = "chose";
 	public static final String RQST_COURSE_ID = "cfgid";
+	public static final String RQST_NAME = "user_id";
+	public static final String RQST_PASSWORD = "password";
 
 	public static final String LIST_ITEM_TEACHER  = "TeacherName";
 	public static final String LIST_ITEM_CONFIG_ID = "ConfigID";
@@ -33,4 +35,7 @@ public class IShangkeHeader {
 	public static final String DETAIL_EXAM_WAY = "exam";
 	public static final String DETAIL_NAME = "name";
 	public static final String DETAIL_COURSE_ID = "id";
+
+	public static final String CHOSEN_COURSES_SUCCESS = "success";
+	public static final String CHOSEN_COURSES_LIST = "courses";
 }

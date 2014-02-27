@@ -1,7 +1,6 @@
 package com.toilet22.ishankedemo;
 
 
-import com.toilet22.ishankedemo.Course.CourseTimeLocation;
 import com.toilet22.ishankedemo.CourseTableSlidePageFragment.OnCourseClickListener;
 
 
@@ -15,15 +14,10 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.AbsoluteLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class MainActivity extends  SherlockFragmentActivity implements OnCourseClickListener {
 	public static final String Tag = "MainActivity";
-	public static final int NUM_WEEKS = 16;
+	public static final int NUM_WEEKS = 20;
 	/**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
@@ -83,11 +77,13 @@ public class MainActivity extends  SherlockFragmentActivity implements OnCourseC
 	public boolean onOptionsItemSelected(MenuItem item){
 		// Handle presses on the action bar items
 		switch (item.getItemId()){
-			case R.id.main_action_add:
+			case R.id.main_action_search_course:
 				Intent itentAddCourse = new Intent(MainActivity.this, SearchCourseActivity.class);
 				startActivity(itentAddCourse);
 				return true;
-			case R.id.main_action_overflow:
+			case R.id.main_action_add_chosen_courses:
+				Intent itentDownload = new Intent(MainActivity.this, DownloadChosenCoursesActivity.class);
+				startActivity(itentDownload);
 				return true;
 			case R.id.main_action_contactus:
 				return true;
@@ -127,6 +123,9 @@ public class MainActivity extends  SherlockFragmentActivity implements OnCourseC
 		iDetail.putExtras(bundle);
 		startActivity(iDetail);		
 	}
+	
+	
+	
 
 	
 }

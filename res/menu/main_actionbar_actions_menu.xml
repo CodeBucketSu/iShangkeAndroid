@@ -5,7 +5,20 @@
         android:id="@+id/main_action_add"
   		android:title="新增项目"
         android:icon="@drawable/actionbar_new"
-        android:showAsAction="always"/>
+        android:showAsAction="always">
+        <menu >
+            <item
+                android:id="@+id/main_action_search_course"
+                android:title="搜索课程"
+                android:icon="@drawable/search"
+                android:showAsAction="never"/>
+            <item
+                android:id="@+id/main_action_add_chosen_courses"
+                android:title="导入已选"
+                android:icon="@drawable/actionbar_download"
+                android:showAsAction="never"/>
+        </menu>
+    </item>
    
     <item 
         android:id="@+id/main_action_overflow"
