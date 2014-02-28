@@ -134,11 +134,13 @@ public class JSONHelper {
 	 * The method is called by FileHelper.
 	 */
 	public static  JSONObject coursesChosen2JSON(CourseList courseList) throws JSONException{
-		Log.v(Tag, "Course2JSON");
+		Log.v(Tag, "coursesChosen2JSON");
 		JSONArray jArry = new JSONArray();
 		JSONObject jObj = new JSONObject();
+		Log.v(Tag, "coursesChosen2JSON2");
 		int len = courseList.length();
 		jObj.put(IShangkeHeader.LIST_ITEM_LIST, jArry);
+		Log.v(Tag, "coursesChosen2JSON3");
 		for(int i=0; i<len; i++){
 			if(courseList.getCourse(i).strJSON != null){
 				jObj.accumulate(IShangkeHeader.LIST_ITEM_LIST, courseList.getCourse(i).strJSON);
@@ -146,7 +148,8 @@ public class JSONHelper {
 				jObj.accumulate(IShangkeHeader.LIST_ITEM_LIST, JSONObject.NULL);
 				Log.e(Tag, "coursesChosen2JSON Error: strJSON is null!");
 			}			
-		}		
+		}	
+		Log.v(Tag, "the end of coursesChosen2JSON");
 		return jObj;
 	}
 	

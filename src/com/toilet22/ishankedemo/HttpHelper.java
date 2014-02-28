@@ -98,6 +98,7 @@ public class HttpHelper {
 
 		Log.v(Tag, "before JSON2Courses.");
 		Log.v(Tag, jsonstr);
+		jobj.put(IShangkeHeader.LIST_ITEM_CONFIG_ID, configID);
 		Course course = JSONHelper.courseInfoJSON2Course(jobj);
 		
 		Log.v(Tag, "course == null? " + Boolean.toString(course == null));

@@ -1,6 +1,8 @@
 package com.toilet22.ishankedemo;
 
 
+import java.util.Calendar;
+
 import com.toilet22.ishankedemo.CourseTableSlidePageFragment.OnCourseClickListener;
 
 
@@ -17,7 +19,9 @@ import android.view.LayoutInflater;
 
 public class MainActivity extends  SherlockFragmentActivity implements OnCourseClickListener {
 	public static final String Tag = "MainActivity";
-	public static final int NUM_WEEKS = 20;
+	public static final int NUM_WEEKS = 17;
+	public int currentWeekNum;
+	private Calendar calendar= Calendar.getInstance();
 	/**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
@@ -39,10 +43,15 @@ public class MainActivity extends  SherlockFragmentActivity implements OnCourseC
 	@SuppressWarnings("deprecation")
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		calendar.setFirstDayOfWeek(Calendar.MONDAY);
+		currentWeekNum = calendar.get(Calendar.WEEK_OF_YEAR) 
+				- IShangkeHeader.ISHANGKE_START_WEEK_OF_THE_YEAR + 1;
+		Log.v(Tag, "currentWeekNum: " + Integer.toString(currentWeekNum));
 		/***************************************************************
 		 * Initialize all the components. 
 		 ***************************************************************/
 		setContentView(R.layout.activity_main);
+		
 		Log.v(Tag, "before get fragment");
 		CourseTableSlidePageFragment fragment = (CourseTableSlidePageFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.main_table_pager);
@@ -56,12 +65,19 @@ public class MainActivity extends  SherlockFragmentActivity implements OnCourseC
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-            	setTitle("第"+Integer.toString(position+1)+"周");	
+            	if(position == (currentWeekNum - 1)){
+            		setTitle("本周（第"+Integer.toString(position+1)+"周）");	
+            	}else{
+            		setTitle("第"+Integer.toString(position+1)+"周");	
+            	}
             }
         });
-        mPager.setCurrentItem(5);
+        mPager.setCurrentItem(currentWeekNum - 1);		//The real world week start from 1. 
+        												//While the pageview start from 0.
+
+		setTitle("本周（第"+Integer.toString(currentWeekNum)+"周）");	
 		
-		inflater = LayoutInflater.from(this);		
+        inflater = LayoutInflater.from(this);		
 			
 	}
 	

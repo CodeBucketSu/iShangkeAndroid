@@ -38,4 +38,7 @@ public class IShangkeHeader {
 
 	public static final String CHOSEN_COURSES_SUCCESS = "success";
 	public static final String CHOSEN_COURSES_LIST = "courses";
+	
+
+	public static final int ISHANGKE_START_WEEK_OF_THE_YEAR = 9;
 }

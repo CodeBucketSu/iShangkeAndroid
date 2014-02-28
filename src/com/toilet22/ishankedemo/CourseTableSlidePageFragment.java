@@ -98,12 +98,12 @@ public class CourseTableSlidePageFragment extends Fragment {
 			@Override
 			public void onGlobalLayout() {
 //				Log.v("Toilet22","Fragment" + Integer.toString(mWeekNumber)+": vto.onGlobalLayout. ");
-				TextView tvSun1 = (TextView)rootView.findViewById(R.id.tv_sun_1);
-				LinearLayout llSun = (LinearLayout)rootView.findViewById(R.id.ll_sunday);
-				xStart = llSun.getLeft();
-				yStart = tvSun1.getTop();
-				heightBlock = tvSun1.getHeight();
-				widthBlock = tvSun1.getWidth();
+				TextView tvMon1 = (TextView)rootView.findViewById(R.id.tv_mon_1);
+				LinearLayout llMon = (LinearLayout)rootView.findViewById(R.id.ll_monday);
+				xStart = llMon.getLeft();
+				yStart = tvMon1.getTop();
+				heightBlock = tvMon1.getHeight();
+				widthBlock = tvMon1.getWidth();
 //				Log.v("toilet", "x: " + Integer.toString(xStart) + ", y:"+Integer.toString(yStart)
 //						+ ", width:" + Integer.toString(widthBlock) + ", height: " + Integer.toString(heightBlock));
 				
@@ -215,7 +215,7 @@ public class CourseTableSlidePageFragment extends Fragment {
 							}
 						});
 	//					Log.v(Tag, "after TextViews.setText");
-						int x = xStart + widthBlock * (c.courseTimeLocations[j].day);
+						int x = xStart + widthBlock * (c.courseTimeLocations[j].day - 1);
 						int y = yStart + heightBlock * (cTL.getStartEndOrder()[0]-1);
 						int width = widthBlock;
 						int height = heightBlock * (cTL.getStartEndOrder()[1]-cTL.getStartEndOrder()[0] + 1);

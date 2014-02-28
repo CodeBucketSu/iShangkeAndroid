@@ -3,6 +3,7 @@ package com.toilet22.ishankedemo;
 import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -170,7 +171,19 @@ public class CourseListAdapter extends BaseAdapter{
 	 * display them in the UI.
 	 */
 	private class GetCourseInfo extends AsyncTask<String, Void, Course>{
-
+		private AlertDialog dialog;
+		private AlertDialog.Builder builder;
+		
+		
+		protected void onPreExecute(){
+			builder = new AlertDialog.Builder(context);
+			builder.setMessage("请耐心等待哦~")
+			       .setTitle("正在获取课程详情");
+			dialog = builder.create();
+			dialog.show();
+			Log.v(Tag, "Dialog is showed.");
+		    super.onPreExecute();
+		}
 		
 		protected Course doInBackground(String... strConfigID) {
 			/************************************************************
@@ -188,7 +201,17 @@ public class CourseListAdapter extends BaseAdapter{
 			return newCourse;
 		}
 		
+		
+		protected void onPostExecute(Course course){
+			Log.v(Tag, "dialog == null?: " + Boolean.toString(dialog == null));
+			if(dialog.isShowing()){
+				dialog.dismiss();
+			}
+			Log.v(Tag, "Dialog is cancelled.");
+		}
+		
 	}
+
 
 	
 	

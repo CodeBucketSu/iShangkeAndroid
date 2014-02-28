@@ -161,132 +161,6 @@
 	
 	        </LinearLayout>
 	
-	        <LinearLayout
-	            android:id="@+id/ll_sunday"
-	            android:layout_width="20dp"
-	            android:layout_height="match_parent"
-	            android:orientation="vertical"
-	            android:layout_weight="1">
-	
-	            <TextView
-	                android:id="@+id/tv_sun_day"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_days"
-	                android:gravity="center"
-	                android:text="@string/day_Sun"
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_1"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="1"
-	                android:background="@drawable/bkg_item"
-	                android:gravity="center"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_2"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_item" 
-	                android:gravity="center" android:layout_weight="1"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_3"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="1"
-	                android:background="@drawable/bkg_item"
-	                android:gravity="center"
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_4"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_item" 
-	                android:gravity="center" android:layout_weight="1"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_5"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_item" 
-	                android:gravity="center" android:layout_weight="1"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_6"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_item" 
-	                android:gravity="center" android:layout_weight="1"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_7"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_item" 
-	                android:gravity="center" android:layout_weight="1"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_8"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_item" 
-	                android:gravity="center" android:layout_weight="1"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_9"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_item" 
-	                android:gravity="center" android:layout_weight="1"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_10"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_item" 
-	                android:gravity="center" android:layout_weight="1"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_11"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_item"  
-	                android:gravity="center" android:layout_weight="1"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <TextView
-	                android:id="@+id/tv_sun_12"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/bkg_item" 
-	                android:gravity="center" android:layout_weight="1"
-	                android:text=""
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	        </LinearLayout>
 	        
 	          <LinearLayout
 	            android:id="@+id/ll_monday"
@@ -1036,7 +910,134 @@
 	                android:textAppearance="?android:attr/textAppearanceSmall" />
 	
 	            <TextView
-	                android:id="@+id/tv_mon_12"
+	                android:id="@+id/tv_sat_12"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_item" 
+	                android:gravity="center" android:layout_weight="1"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	        </LinearLayout>
+	        
+	          <LinearLayout
+	            android:id="@+id/ll_sunday"
+	            android:layout_width="20dp"
+	            android:layout_height="match_parent"
+	            android:orientation="vertical"
+	            android:layout_weight="1">
+	
+	            <TextView
+	                android:id="@+id/tv_sun_day"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_days"
+	                android:gravity="center"
+	                android:text="@string/day_Sun"
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_1"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:background="@drawable/bkg_item"
+	                android:gravity="center"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_2"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_item" 
+	                android:gravity="center" android:layout_weight="1"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_3"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:background="@drawable/bkg_item"
+	                android:gravity="center"
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_4"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_item" 
+	                android:gravity="center" android:layout_weight="1"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_5"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_item" 
+	                android:gravity="center" android:layout_weight="1"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_6"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_item" 
+	                android:gravity="center" android:layout_weight="1"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_7"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_item" 
+	                android:gravity="center" android:layout_weight="1"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_8"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_item" 
+	                android:gravity="center" android:layout_weight="1"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_9"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_item" 
+	                android:gravity="center" android:layout_weight="1"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_10"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_item" 
+	                android:gravity="center" android:layout_weight="1"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_11"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/bkg_item"  
+	                android:gravity="center" android:layout_weight="1"
+	                android:text=""
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <TextView
+	                android:id="@+id/tv_sun_12"
 	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
 	                android:background="@drawable/bkg_item" 

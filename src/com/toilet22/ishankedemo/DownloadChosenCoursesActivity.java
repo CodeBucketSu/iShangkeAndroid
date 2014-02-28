@@ -1,9 +1,13 @@
 package com.toilet22.ishankedemo;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -19,7 +23,11 @@ public class DownloadChosenCoursesActivity extends SherlockActivity {
 	public static final String Tag = "DownloadChosenCoursesActivity";
 
 	EditText edtName, edtPassword;
+	ProgressDialog mProgressDialog;
+	DownLoadChosenCoursesAndSaveAsyncTask downloader;
+	CourseList coursesChosen;
 	String name, password;
+    public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
 	String []configIDs;
 	HttpHelper httpHelper = new HttpHelper();
 	FileHelper fileHelper = new FileHelper(this);
@@ -58,53 +66,126 @@ public class DownloadChosenCoursesActivity extends SherlockActivity {
 	            return true;
 	            
             case R.id.download_action_accept:
-            	ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        		NetworkInfo info = connMgr.getActiveNetworkInfo();
-        		CourseList courseChosen = new CourseList();
-        		if(info == null ){Log.e(Tag, "info == null");}
-        		if(info != null && info.isConnected()){
-
-//	            	name = edtName.getText().toString();
-//	            	password = edtPassword.getText().toString();
-        			name = "herui13@mails.ucas.ac.cn";
-        			password = "420582199302256257";
-					try {
-						configIDs = httpHelper.getChosenCoursesConfigIDFromServer(name, password);
-					} catch (Exception e) {
-						Log.e(Tag, "download error.");
-						configIDs = null;
-						e.printStackTrace();
-					}	
-	            	
-					if (configIDs == null){
-						Log.e(Tag, "download faild.");
-						Toast.makeText(getApplicationContext(), "用户名密码错误", 
-								Toast.LENGTH_LONG).show();
-					}else{
-						Log.v(Tag, "configID: " + configIDs.toString());
-						Course newCourse;
-						for(int i= 0; i<configIDs.length; ++i){
-							try {
-								newCourse = httpHelper.getCourseFromServer(configIDs[i]);
-							} catch (Exception e) {
-								newCourse = null;
-							}
-							if(newCourse != null)courseChosen.addCourse(newCourse);
-						}
-						fileHelper.writeCoursesChosenIntoFile(courseChosen);
-						Toast.makeText(getApplicationContext(), "导入完成！", 
-								Toast.LENGTH_LONG).show();
-						
-					}
-        		}else{
-        			Toast.makeText(getApplicationContext(), "没有网络连接", 
-    					Toast.LENGTH_SHORT).show();
-        		}
-//            	fh.writeCoursesChosenIntoFile(coursesChosen);
+            	downloadChesenCoursesAndWriteIntoFile();
                 return true;
             
             default:
             	return super.onOptionsItemSelected(item);
         }
     }
+	
+	
+	
+	protected Dialog onCreateDialog(int id){
+		switch (id) {  
+        case DIALOG_DOWNLOAD_PROGRESS: //we set this to 0  
+            mProgressDialog = new ProgressDialog(this);  
+            mProgressDialog.setMessage("正在导入课程");  
+            mProgressDialog.setIndeterminate(false);  
+            mProgressDialog.setMax(100);  
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);  
+            mProgressDialog.setCancelable(false);  
+            mProgressDialog.show();  
+            return mProgressDialog;  
+        default:  
+            return null;  
+		} 
+	}
+	
+	
+	public void downloadChesenCoursesAndWriteIntoFile(){
+		ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo info = connMgr.getActiveNetworkInfo();
+		CourseList courseChosen = new CourseList();
+		if(info == null ){Log.e(Tag, "info == null");}
+		if(info != null && info.isConnected()){
+
+        	name = edtName.getText().toString();
+        	password = edtPassword.getText().toString();
+//			name = "herui13@mails.ucas.ac.cn";
+//			password = "420582199302256257";
+			downloader = new DownLoadChosenCoursesAndSaveAsyncTask();
+			downloader.execute();
+
+		}else{
+			Toast.makeText(getApplicationContext(), "没有网络连接", 
+				Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	
+	private class DownLoadChosenCoursesAndSaveAsyncTask extends AsyncTask<Void, Integer, CourseList>{
+		
+		CourseList courses = new CourseList();
+		
+		@SuppressWarnings("deprecation")
+		protected void onPreExecute() {  
+            super.onPreExecute();  
+            showDialog(DIALOG_DOWNLOAD_PROGRESS);  
+        }
+		
+		protected CourseList doInBackground(Void... arg0) {
+			/************************************************************
+			 * Search courses from sever.
+			 ************************************************************/
+			try {
+				configIDs = httpHelper.getChosenCoursesConfigIDFromServer(name, password);
+			} catch (Exception e) {
+				Log.e(Tag, "download error.");
+				configIDs = null;
+				e.printStackTrace();
+			}	
+        	
+			if (configIDs == null){
+				Log.e(Tag, "configIDs == null");
+			}else{
+				int progressDone = 10;
+				publishProgress(progressDone);
+				Log.v(Tag, "configID: " + configIDs.toString());
+				Course newCourse;
+				for(int i= 0; i<configIDs.length; ++i){
+					try {
+						newCourse = httpHelper.getCourseFromServer(configIDs[i]);
+					} catch (Exception e) {
+						newCourse = null;
+					}
+					if(newCourse != null){
+						Log.v(Tag, "newCourse != null");
+						newCourse.configID = configIDs[i];
+						courses.addCourse(newCourse);
+					}
+					progressDone += (int)(90/configIDs.length);
+					publishProgress(progressDone);
+				}
+				
+			}
+			return courses;
+		}
+		
+		
+		protected void onProgressUpdate(Integer... progress){
+			mProgressDialog.setProgress(progress[0]);
+		}
+		
+		protected void onPostExecute(CourseList courses){
+			Log.v(Tag, "onPostExecute.");
+			if(mProgressDialog.isShowing()){
+				mProgressDialog.dismiss();
+			}
+			Log.v(Tag, "Dialog is cancelled.");
+			if(courses != null && courses.length() > 0){
+				Log.v(Tag, "courses.length = " + Integer.toString(courses.length()));
+				Toast.makeText(getApplicationContext(), "导入课程已完成",Toast.LENGTH_SHORT)
+				.show();
+				coursesChosen = courses;
+				fileHelper.writeCoursesChosenIntoFile(coursesChosen);
+			}else{
+				Toast.makeText(getApplicationContext(), "您没有选课", 
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+
+
+		
+	}
 }

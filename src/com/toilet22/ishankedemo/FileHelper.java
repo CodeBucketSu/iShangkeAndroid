@@ -65,10 +65,12 @@ public class FileHelper {
 	public boolean writeCoursesChosenIntoFile(CourseList courseList){
 		try {
 			JSONObject jo = JSONHelper.coursesChosen2JSON(courseList);
+			if(jo == null)Log.e(Tag, "jo == null");
 			String strJSON = jo.toString();
-//			Log.v(Tag, strJSON);
+			Log.v(Tag, strJSON);
 			FileOutputStream outputStream = context.openFileOutput(FILE_NAME_COURSES_CHOSEN,
 					Context.MODE_PRIVATE);
+			Log.v(Tag, "after openFileOuput");
 			outputStream.write(strJSON.getBytes());
 			outputStream.close();
 			return true;

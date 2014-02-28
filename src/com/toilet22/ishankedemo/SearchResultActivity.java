@@ -173,7 +173,7 @@ public class SearchResultActivity extends SherlockActivity{
 		ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = connMgr.getActiveNetworkInfo();
 		if(info != null && info.isConnected()){
-			SearchClassAndDisplay scd = new SearchClassAndDisplay();
+			SearchCoursesAndDisPlayAsyncTask scd = new SearchCoursesAndDisPlayAsyncTask();
 			scd.execute(request);
 		} else {
 			Toast.makeText(getApplicationContext(), "没有网络连接", 
@@ -185,7 +185,7 @@ public class SearchResultActivity extends SherlockActivity{
 	 * This is a subclass of AsyncTask, who searches courses from server in a background thread and 
 	 * display them in the UI.
 	 */
-	private class SearchClassAndDisplay extends AsyncTask<String, Void, CourseList>{
+	private class SearchCoursesAndDisPlayAsyncTask extends AsyncTask<String, Void, CourseList>{
 		private AlertDialog dialog;
 		private AlertDialog.Builder builder;
 		CourseList coursesSearched;
@@ -242,6 +242,9 @@ public class SearchResultActivity extends SherlockActivity{
 		}
 		
 	}
+	
+	
+	
 
 	
 }

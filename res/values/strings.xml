@@ -65,7 +65,8 @@
     <string name="detail_ttl_campus">所属校区</string>
     
 	<string name="download_txtv_declare">郑重承诺：我们绝不会以任何形式保存您的登陆信息</string>
-	<string name="download_txtv_warning">提示：导入已选课程将首先清空本地课表，如果您希望在课程表中呈现未选课程，请导入后重新添加</string>
+	<string name="download_txtv_warning1">提示1：导入已选课程将首先清空本地课表，如果您希望在课程表中呈现未选课程，请导入后重新添加</string>
+	<string name="download_txtv_warning2">提示2：个别跨学期课程（如马克思主义与当代）由于技术原因暂时不存在于我们的数据库中，因此如果您发现有的课程搜索不到无法添加到课程表中，请别忘了上课时间</string>
 	<string name="download_ttl">导入已选课程</string>
 	
 

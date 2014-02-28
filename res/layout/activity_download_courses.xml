@@ -80,8 +80,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/download_txtv_warning"
+        android:text="@string/download_txtv_warning1"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/turquoise" />
+        android:textColor="@color/peter_river" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/download_txtv_warning2"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/peter_river" />
 
 </LinearLayout>
